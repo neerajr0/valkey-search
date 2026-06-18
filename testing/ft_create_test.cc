@@ -588,6 +588,208 @@ TEST_F(FTCreateTest, NonEnglishLanguageAllowedFlagEnabled) {
   }
 }
 
+// --- Parameterized default punctuation tests ---
+
+struct DefaultPunctuationTestCase {
+  std::string test_name;
+  std::string language;
+  std::string index_name;
+  // Characters expected to be present in the stored punctuation
+  std::vector<std::string> expected_present;
+  // Characters expected to be absent from the stored punctuation
+  std::vector<std::string> expected_absent;
+};
+
+class DefaultPunctuationTest
+    : public ValkeySearchTestWithParam<DefaultPunctuationTestCase> {};
+
+TEST_P(DefaultPunctuationTest, LanguageDefaultPunctuation) {
+  if constexpr (kModuleVersion < valkey_search::kRelease14) {
+    GTEST_SKIP() << "Only applicable for module version >= 1.4";
+  }
+
+  const auto& tc = GetParam();
+  int db_num = 0;
+  ON_CALL(*kMockValkeyModule, GetSelectedDb(&fake_ctx_))
+      .WillByDefault(testing::Return(db_num));
+
+  VMSDK_EXPECT_OK(
+      const_cast<vmsdk::config::Boolean&>(options::GetMultiLanguageSupport())
+          .SetValue(true));
+
+  std::vector<std::string> argv = {"FT.CREATE", tc.index_name, "LANGUAGE",
+                                   tc.language, "schema",      "title",
+                                   "text"};
+  ExecuteFTCreateCommand(&fake_ctx_, argv, VALKEYMODULE_OK, "+OK\r\n");
+
+  auto index_schema =
+      SchemaManager::Instance().GetIndexSchema(db_num, tc.index_name);
+  VMSDK_EXPECT_OK(index_schema);
+  auto proto = index_schema.value()->ToProto();
+  const auto& punct = proto->punctuation();
+
+  for (const auto& expected : tc.expected_present) {
+    EXPECT_NE(punct.find(expected), std::string::npos)
+        << "Expected punctuation char present for " << tc.language
+        << " but not found";
+  }
+  for (const auto& absent : tc.expected_absent) {
+    EXPECT_EQ(punct.find(absent), std::string::npos)
+        << "Expected punctuation char absent for " << tc.language
+        << " but was found";
+  }
+
+  VMSDK_EXPECT_OK(
+      SchemaManager::Instance().RemoveIndexSchema(db_num, tc.index_name));
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    DefaultPunctuationTests, DefaultPunctuationTest,
+    ValuesIn<DefaultPunctuationTestCase>({
+        {
+            .test_name = "french_guillemets",
+            .language = "FRENCH",
+            .index_name = "test_idx_fr",
+            .expected_present =
+                {
+                    "\xc2\xab",      // « LEFT GUILLEMET
+                    "\xc2\xbb",      // » RIGHT GUILLEMET
+                    "\xe2\x80\x94",  // — EM DASH
+                },
+            .expected_absent = {},
+        },
+        {
+            .test_name = "spanish_inverted_marks",
+            .language = "SPANISH",
+            .index_name = "test_idx_es",
+            .expected_present =
+                {
+                    "\xc2\xa1",  // ¡ INVERTED EXCLAMATION
+                    "\xc2\xbf",  // ¿ INVERTED QUESTION
+                    "\xc2\xab",  // « LEFT GUILLEMET
+                },
+            .expected_absent = {},
+        },
+        {
+            .test_name = "german_low_quotes",
+            .language = "GERMAN",
+            .index_name = "test_idx_de",
+            .expected_present =
+                {
+                    "\xe2\x80\x9e",  // „ DOUBLE LOW-9 QUOTATION
+                    "\xe2\x80\x9a",  // ‚ SINGLE LOW-9 QUOTATION
+                    "\xc2\xab",      // « LEFT GUILLEMET
+                },
+            .expected_absent = {},
+        },
+        {
+            .test_name = "arabic_script_punctuation",
+            .language = "ARABIC",
+            .index_name = "test_idx_ar",
+            .expected_present =
+                {
+                    "\xd8\x8c",  // ، ARABIC COMMA
+                    "\xd8\x9b",  // ؛ ARABIC SEMICOLON
+                    "\xd8\x9f",  // ؟ ARABIC QUESTION MARK
+                },
+            .expected_absent =
+                {
+                    "\xc2\xab",  // no « (Arabic uses its own marks)
+                },
+        },
+        {
+            .test_name = "indonesian_common_only",
+            .language = "INDONESIAN",
+            .index_name = "test_idx_id",
+            .expected_present =
+                {
+                    "\xc2\xab",      // « LEFT GUILLEMET
+                    "\xe2\x80\x94",  // — EM DASH
+                },
+            .expected_absent =
+                {
+                    "\xd8\x8c",  // no ، (Arabic)
+                    "\xc2\xa1",  // no ¡ (Spanish)
+                },
+        },
+        {
+            .test_name = "russian_low_quotes",
+            .language = "RUSSIAN",
+            .index_name = "test_idx_ru",
+            .expected_present =
+                {
+                    "\xe2\x80\x9e",  // „ DOUBLE LOW-9 QUOTATION
+                    "\xe2\x80\x9a",  // ‚ SINGLE LOW-9 QUOTATION
+                    "\xc2\xab",      // « LEFT GUILLEMET
+                },
+            .expected_absent = {},
+        },
+    }),
+    [](const TestParamInfo<DefaultPunctuationTestCase>& info) {
+      return info.param.test_name;
+    });
+
+// --- Explicit PUNCTUATION override tests ---
+
+struct PunctuationOverrideTestCase {
+  std::string test_name;
+  std::vector<std::string> argv;
+  std::string index_name;
+  std::string expected_punctuation;
+};
+
+class PunctuationOverrideTest
+    : public ValkeySearchTestWithParam<PunctuationOverrideTestCase> {};
+
+TEST_P(PunctuationOverrideTest, ExplicitPunctuationOverride) {
+  if constexpr (kModuleVersion < valkey_search::kRelease14) {
+    GTEST_SKIP() << "Only applicable for module version >= 1.4";
+  }
+
+  const auto& tc = GetParam();
+  int db_num = 0;
+  ON_CALL(*kMockValkeyModule, GetSelectedDb(&fake_ctx_))
+      .WillByDefault(testing::Return(db_num));
+
+  VMSDK_EXPECT_OK(
+      const_cast<vmsdk::config::Boolean&>(options::GetMultiLanguageSupport())
+          .SetValue(true));
+
+  ExecuteFTCreateCommand(&fake_ctx_, tc.argv, VALKEYMODULE_OK, "+OK\r\n");
+
+  auto index_schema =
+      SchemaManager::Instance().GetIndexSchema(db_num, tc.index_name);
+  VMSDK_EXPECT_OK(index_schema);
+  auto proto = index_schema.value()->ToProto();
+  EXPECT_EQ(proto->punctuation(), tc.expected_punctuation);
+
+  VMSDK_EXPECT_OK(
+      SchemaManager::Instance().RemoveIndexSchema(db_num, tc.index_name));
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    PunctuationOverrideTests, PunctuationOverrideTest,
+    ValuesIn<PunctuationOverrideTestCase>({
+        {
+            .test_name = "explicit_overrides_language_default",
+            .argv = {"FT.CREATE", "test_idx_override", "LANGUAGE", "ARABIC",
+                     "PUNCTUATION", ",.!", "schema", "title", "text"},
+            .index_name = "test_idx_override",
+            .expected_punctuation = ",.!",
+        },
+        {
+            .test_name = "punctuation_specified_twice_last_wins",
+            .argv = {"FT.CREATE", "test_idx_double", "LANGUAGE", "FRENCH",
+                     "PUNCTUATION", ",.!", "PUNCTUATION", "xyz", "schema",
+                     "title", "text"},
+            .index_name = "test_idx_double",
+            .expected_punctuation = "xyz",
+        },
+    }),
+    [](const TestParamInfo<PunctuationOverrideTestCase>& info) {
+      return info.param.test_name;
+    });
+
 }  // namespace
 
 }  // namespace valkey_search
