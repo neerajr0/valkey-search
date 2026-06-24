@@ -571,10 +571,6 @@ class DefaultPunctuationTest
     : public ValkeySearchTestWithParam<DefaultPunctuationTestCase> {};
 
 TEST_P(DefaultPunctuationTest, LanguageDefaultPunctuation) {
-  if constexpr (kModuleVersion < valkey_search::kRelease14) {
-    GTEST_SKIP() << "Only applicable for module version >= 1.4";
-  }
-
   const auto& tc = GetParam();
   int db_num = 0;
   ON_CALL(*kMockValkeyModule, GetSelectedDb(&fake_ctx_))
@@ -709,10 +705,6 @@ class PunctuationOverrideTest
     : public ValkeySearchTestWithParam<PunctuationOverrideTestCase> {};
 
 TEST_P(PunctuationOverrideTest, ExplicitPunctuationOverride) {
-  if constexpr (kModuleVersion < valkey_search::kRelease14) {
-    GTEST_SKIP() << "Only applicable for module version >= 1.4";
-  }
-
   const auto& tc = GetParam();
   int db_num = 0;
   ON_CALL(*kMockValkeyModule, GetSelectedDb(&fake_ctx_))
