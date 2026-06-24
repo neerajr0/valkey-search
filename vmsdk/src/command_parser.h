@@ -215,13 +215,6 @@ absl::Status ParseEnumParam(
         return absl::OkStatus();                                    \
       })
 
-#define GENERATE_CLEAR_CONTAINER_PARSER(type, field_name)           \
-  std::make_unique<::vmsdk::ParamParser<type>>(                     \
-      [](type &value, ::vmsdk::ArgsIterator &itr) -> absl::Status { \
-        value.field_name.clear();                                   \
-        return absl::OkStatus();                                    \
-      })
-
 #define GENERATE_EMPLACE_PARSER(type, field_name)                   \
   std::make_unique<::vmsdk::ParamParser<type>>(                     \
       [](type &value, ::vmsdk::ArgsIterator &itr) -> absl::Status { \
