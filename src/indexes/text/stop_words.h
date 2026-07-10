@@ -444,9 +444,39 @@ inline const std::vector<std::string> kTurkishStopWords{
     "yaptıkları", "yedi",        "yerine",    "yetmiş",      "yine",
     "yirmi",      "yoksa",       "yüz",       "zaten"};
 
+// Chinese stop words (78 words)
+// Curated list of high-frequency Chinese function words (grammatical particles,
+// pronouns, conjunctions, adverbs) that add noise to BM25 scoring without
+// contributing to retrieval relevance. Selected based on linguistic role rather
+// than corpus frequency — these are closed-class words that serve grammatical
+// rather than semantic functions. To be validated against retrieval benchmarks.
+// Users can override via FT.CREATE ... STOPWORDS <count> <word>...
+inline const std::vector<std::string> kChineseStopWords{
+    // Structural particles
+    "的", "了", "着", "地", "得",
+    // Pronouns
+    "我", "你", "他", "她", "它", "们", "自己",
+    // Demonstratives
+    "这", "那", "这个", "那个", "这些", "那些",
+    // Copula and common verbs
+    "是", "有", "在", "说", "要", "去", "会", "看", "好",
+    // Conjunctions and prepositions
+    "和", "与", "或", "但", "而", "从", "被", "把", "让", "向", "对", "于",
+    "之", "其", "为", "所", "以",
+    // Adverbs
+    "都", "也", "很", "就", "不", "没有", "还", "又", "再",
+    // Measure words and numerals
+    "一", "一个", "些",
+    // Positionals
+    "上", "下", "中", "里", "外",
+    // Modal and sentence-final particles
+    "吗", "呢", "吧", "啊", "呀", "嘛", "哦", "哈",
+    // Other high-frequency function words
+    "人", "到", "将", "能", "可以", "什么", "怎么", "如何", "哪"};
+
 // Returns the default stop word list for the given language.
 // Returns English stop words for LANGUAGE_UNSPECIFIED.
-inline const std::vector<std::string>& GetDefaultStopWords(
+inline const std::vector<std::string> &GetDefaultStopWords(
     data_model::Language language) {
   switch (language) {
     case data_model::LANGUAGE_FRENCH:
@@ -471,6 +501,8 @@ inline const std::vector<std::string>& GetDefaultStopWords(
       return kIndonesianStopWords;
     case data_model::LANGUAGE_ARABIC:
       return kArabicStopWords;
+    case data_model::LANGUAGE_CHINESE:
+      return kChineseStopWords;
     case data_model::LANGUAGE_ENGLISH:
     case data_model::LANGUAGE_UNSPECIFIED:
     default:
@@ -480,9 +512,9 @@ inline const std::vector<std::string>& GetDefaultStopWords(
 
 // Build a stop words hash set from a vector. Lowercases all entries.
 inline absl::flat_hash_set<std::string> BuildStopWordsSet(
-    const std::vector<std::string>& stop_words) {
+    const std::vector<std::string> &stop_words) {
   absl::flat_hash_set<std::string> stop_words_set;
-  for (const auto& word : stop_words) {
+  for (const auto &word : stop_words) {
     stop_words_set.insert(absl::AsciiStrToLower(word));
   }
   return stop_words_set;

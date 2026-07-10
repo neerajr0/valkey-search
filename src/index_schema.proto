@@ -22,6 +22,7 @@ enum Language {
   LANGUAGE_DUTCH = 10;
   LANGUAGE_INDONESIAN = 11;
   LANGUAGE_ARABIC = 12;
+  LANGUAGE_CHINESE = 13;
 }
 
 message IndexSchema {

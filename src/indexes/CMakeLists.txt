@@ -132,6 +132,14 @@ set(SRCS_TEXT ${CMAKE_CURRENT_LIST_DIR}/text/text_index.h
               ${CMAKE_CURRENT_LIST_DIR}/text/snowball_stem_filter.h
               ${CMAKE_CURRENT_LIST_DIR}/text/unicode_normalizer.cc
               ${CMAKE_CURRENT_LIST_DIR}/text/unicode_normalizer.h
+              ${CMAKE_CURRENT_LIST_DIR}/text/jieba_dict_trie.h
+              ${CMAKE_CURRENT_LIST_DIR}/text/jieba_dict_trie.cc
+              ${CMAKE_CURRENT_LIST_DIR}/text/jieba_segmenter.h
+              ${CMAKE_CURRENT_LIST_DIR}/text/jieba_segmenter.cc
+              ${CMAKE_CURRENT_LIST_DIR}/text/segmenter_query_tokenizer.h
+              ${CMAKE_CURRENT_LIST_DIR}/text/segmenter_query_tokenizer.cc
+              ${CMAKE_CURRENT_LIST_DIR}/text/chinese_processor.h
+              ${CMAKE_CURRENT_LIST_DIR}/text/chinese_processor.cc
               ${CMAKE_CURRENT_LIST_DIR}/text/fuzzy.h
               ${CMAKE_CURRENT_LIST_DIR}/text/flat_position_map.cc
               ${CMAKE_CURRENT_LIST_DIR}/text/flat_position_map.h
@@ -147,4 +155,9 @@ target_link_libraries(text PUBLIC valkey_module)
 target_link_libraries(text PUBLIC snowball)
 target_link_libraries(text PUBLIC scanner)
 target_link_libraries(text PUBLIC icu)
+target_link_libraries(text PUBLIC cppjieba)
 target_link_libraries(text PUBLIC rax_lib)
+
+# Pass the dictionary path as a compile definition for the Chinese processor.
+target_compile_definitions(text PRIVATE
+  CPPJIEBA_DICT_DIR="${CPPJIEBA_DICT_DIR}")

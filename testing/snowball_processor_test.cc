@@ -695,6 +695,10 @@ const std::vector<StopWordSnapshotCase> kStopWordSnapshots = {
      data_model::LANGUAGE_ARABIC,
      119,
      {"\xd9\x85\xd9\x86", "\xd9\x81\xd9\x8a", "\xd9\x88"}},  // من, في, و
+    {"chinese",
+     data_model::LANGUAGE_CHINESE,
+     78,
+     {"\xe7\x9a\x84", "\xe4\xba\x86", "\xe5\x92\x8c"}},  // 的, 了, 和
 };
 
 class StopWordSnapshotTest

@@ -28,7 +28,14 @@ namespace valkey_search::indexes::text {
 /// The parser handles query-syntax detection (|, @, (, ), ", *, %, etc.)
 /// and delegates word-boundary logic and escape handling to this interface.
 ///
-/// Standalone, testable, stateless — consistent with Segmenter/TokenFilter.
+/// Thread-safety: QueryTokenizer implementations may be stateful (e.g.,
+/// SegmenterQueryTokenizer buffers tokens across calls). Query parsing
+/// (FilterParser::Parse) runs on the main Valkey event-loop thread during
+/// command handling, before search is dispatched to the reader thread pool.
+/// Valkey processes commands sequentially on the main thread, so concurrent
+/// tokenizer access cannot occur. If query parsing is ever moved off the
+/// main thread, implementations must be made stateless or the caller must
+/// instantiate per-parse copies.
 class QueryTokenizer {
  public:
   virtual ~QueryTokenizer() = default;

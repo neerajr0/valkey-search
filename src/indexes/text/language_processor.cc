@@ -9,6 +9,7 @@
 
 #include <utility>
 
+#include "src/indexes/text/chinese_processor.h"
 #include "src/indexes/text/snowball_processor.h"
 
 namespace valkey_search::indexes::text {
@@ -58,11 +59,8 @@ std::shared_ptr<LanguageProcessor> LanguageProcessor::Create(
     data_model::Language language, const std::string &punctuation,
     const std::vector<std::string> &stop_words) {
   switch (language) {
-      // TODO: Add ICU processor cases here when implemented
-      // case data_model::LANGUAGE_CHINESE:
-      // case data_model::LANGUAGE_JAPANESE:
-      // case data_model::LANGUAGE_KOREAN:
-      //   return CreateICUProcessor(language, stop_words);
+    case data_model::LANGUAGE_CHINESE:
+      return CreateChineseProcessor(stop_words);
 
     default:
       return CreateSnowballProcessor(language, punctuation, stop_words);

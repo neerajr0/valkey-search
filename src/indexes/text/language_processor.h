@@ -87,6 +87,8 @@ class LanguageProcessor {
   friend std::shared_ptr<LanguageProcessor> CreateSnowballProcessor(
       data_model::Language language, const std::string& punctuation,
       const std::vector<std::string>& stop_words);
+  friend std::shared_ptr<LanguageProcessor> CreateChineseProcessor(
+      const std::vector<std::string>& stop_words);
 
   std::vector<std::shared_ptr<Segmenter>> segmenters_;
   std::vector<std::shared_ptr<TokenFilter>> filters_;

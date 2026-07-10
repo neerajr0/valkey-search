@@ -234,7 +234,8 @@ const absl::NoDestructor<
                   {"TURKISH", data_model::LANGUAGE_TURKISH},
                   {"DUTCH", data_model::LANGUAGE_DUTCH},
                   {"INDONESIAN", data_model::LANGUAGE_INDONESIAN},
-                  {"ARABIC", data_model::LANGUAGE_ARABIC}});
+                  {"ARABIC", data_model::LANGUAGE_ARABIC},
+                  {"CHINESE", data_model::LANGUAGE_CHINESE}});
       }
       return m;
     }());

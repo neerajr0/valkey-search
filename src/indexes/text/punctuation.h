@@ -145,6 +145,13 @@ inline const std::string& GetDefaultPunctuation(data_model::Language language) {
       return kIndonesianPunctuation;
     case data_model::LANGUAGE_ARABIC:
       return kArabicPunctuation;
+    case data_model::LANGUAGE_CHINESE: {
+      // Chinese uses dictionary-based segmentation (cppjieba), not
+      // punctuation-based splitting. Return an empty string — the Chinese
+      // LanguageProcessor ignores this field entirely.
+      static const std::string kEmpty;
+      return kEmpty;
+    }
     case data_model::LANGUAGE_ENGLISH:
     case data_model::LANGUAGE_UNSPECIFIED:
     default:
