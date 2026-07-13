@@ -13,6 +13,7 @@
 #include "absl/log/check.h"
 #include "absl/status/status.h"
 #include "absl/strings/ascii.h"
+#include "src/indexes/text/arabic_normalizer.h"
 #include "src/indexes/text/snowball_stem.h"
 #include "src/indexes/text/stop_words.h"
 #include "src/utils/scanner.h"
@@ -523,12 +524,21 @@ std::shared_ptr<LanguageProcessor> CreateSnowballProcessor(
   // callers that need it (stem map building, query expansion, delete path).
   auto stemmer = std::make_shared<SnowballStemFilter>(language);
 
-  return LanguageProcessor::Builder()
-      .AddSegmenter(std::move(punct_segmenter))
-      .SetQueryTokenizer(std::move(query_tokenizer))
-      .SetNormalizer(normalizer)
-      .AddFilter(std::move(normalizer))
-      .SetStopWordFilter(stop_filter)
+  auto builder = LanguageProcessor::Builder()
+                     .AddSegmenter(std::move(punct_segmenter))
+                     .SetQueryTokenizer(std::move(query_tokenizer))
+                     .SetNormalizer(normalizer)
+                     .AddFilter(std::move(normalizer));
+
+  // Arabic-specific normalization: strips tashkeel diacritics, tatweel,
+  // normalizes alef variants, teh marbuta, and alef maksura. Runs AFTER NFKC
+  // (which decomposes Arabic presentation forms) and BEFORE stop-word
+  // filtering (so stop words match the normalized token forms).
+  if (language == data_model::LANGUAGE_ARABIC) {
+    builder.AddFilter(std::make_shared<ArabicNormalizationFilter>());
+  }
+
+  return builder.SetStopWordFilter(stop_filter)
       .AddFilter(std::move(stop_filter))
       .SetStemmer(std::move(stemmer))
       .Build();

@@ -14,6 +14,7 @@
 
 #include "gtest/gtest.h"
 #include "src/index_schema.pb.h"
+#include "src/indexes/text/arabic_normalizer.h"
 #include "src/indexes/text/punctuation.h"
 #include "src/indexes/text/stop_words.h"
 
@@ -645,6 +646,153 @@ TEST(StopWordFilterApplyTest, EmptySetKeepsAll) {
   StopWordFilter filter(std::vector<std::string>{});
   std::string token = "the";
   EXPECT_TRUE(filter.Apply(token));
+}
+
+// =============================================================================
+// ArabicNormalizationFilter — tashkeel, tatweel, alef, teh marbuta, alef
+// maksura normalization + empty-token-after-strip safety.
+// =============================================================================
+
+class ArabicNormalizationFilterTest : public ::testing::Test {
+ protected:
+  ArabicNormalizationFilter filter_;
+  std::shared_ptr<LanguageProcessor> processor_ =
+      CreateProcessor(data_model::LANGUAGE_ARABIC);
+};
+
+// --- Crash regression: standalone tatweel produces empty token ---
+
+TEST_F(ArabicNormalizationFilterTest, StandaloneTatweelDropped) {
+  // U+0640 ARABIC TATWEEL as sole token → stripped → empty → must be dropped
+  std::string token = "\xd9\x80";  // U+0640
+  EXPECT_FALSE(filter_.Apply(token));
+  EXPECT_TRUE(token.empty());
+}
+
+TEST_F(ArabicNormalizationFilterTest, MultipleTatweelsDropped) {
+  // Three tatweels → all stripped → empty → dropped
+  std::string token = "\xd9\x80\xd9\x80\xd9\x80";  // U+0640 x3
+  EXPECT_FALSE(filter_.Apply(token));
+  EXPECT_TRUE(token.empty());
+}
+
+TEST_F(ArabicNormalizationFilterTest, StandaloneTatweelFullPipeline) {
+  // Full pipeline: "ـ" (standalone tatweel) must not crash and must produce
+  // no tokens. This is the minimal reproducer for the crash bug.
+  auto result = processor_->Process("\xd9\x80");  // U+0640
+  ASSERT_TRUE(result.ok());
+  EXPECT_TRUE(result->empty());
+}
+
+TEST_F(ArabicNormalizationFilterTest, TatweelSurroundedBySpacesFullPipeline) {
+  // "hello ـ world" — tatweel as standalone word between spaces
+  auto result = processor_->Process(
+      "\xd9\x85\xd8\xb1\xd8\xad\xd8\xa8\xd8\xa7 "  // مرحبا
+      "\xd9\x80 "                                  // ـ (standalone)
+      "\xd8\xa8\xd8\xa7\xd9\x84\xd8\xb9\xd8\xa7\xd9\x84\xd9\x85");  // بالعالم
+  ASSERT_TRUE(result.ok());
+  // Tatweel token is dropped; only the two real words remain
+  EXPECT_EQ(result->size(), 2u);
+}
+
+// --- Tatweel stripping within a word (normal usage) ---
+
+TEST_F(ArabicNormalizationFilterTest, EmbeddedTatweelStripped) {
+  // كـتـاب (with tatweels) → كتاب (without)
+  std::string token = "\xd9\x83\xd9\x80\xd8\xaa\xd9\x80\xd8\xa7\xd8\xa8";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd9\x83\xd8\xaa\xd8\xa7\xd8\xa8");  // كتاب
+}
+
+// --- Tashkeel diacritics stripping ---
+
+TEST_F(ArabicNormalizationFilterTest, TashkeelStripped) {
+  // كِتَابٌ (with fatha U+064E, kasra U+0650, dammatan U+064C)
+  std::string token =
+      "\xd9\x83\xd9\x90\xd8\xaa\xd9\x8e\xd8\xa7\xd8\xa8\xd9\x8c";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd9\x83\xd8\xaa\xd8\xa7\xd8\xa8");  // كتاب
+}
+
+TEST_F(ArabicNormalizationFilterTest, StandaloneTashkeelDropped) {
+  // Single fatha (U+064E) as a token → stripped → empty → dropped
+  std::string token = "\xd9\x8e";
+  EXPECT_FALSE(filter_.Apply(token));
+  EXPECT_TRUE(token.empty());
+}
+
+// --- Alef variant normalization ---
+
+TEST_F(ArabicNormalizationFilterTest, AlefMaddaNormalized) {
+  // آ (U+0622) → ا (U+0627)
+  std::string token = "\xd8\xa2";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd8\xa7");  // ا
+}
+
+TEST_F(ArabicNormalizationFilterTest, AlefHamzaAboveNormalized) {
+  // أ (U+0623) → ا (U+0627)
+  std::string token = "\xd8\xa3";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd8\xa7");  // ا
+}
+
+TEST_F(ArabicNormalizationFilterTest, AlefHamzaBelowNormalized) {
+  // إ (U+0625) → ا (U+0627)
+  std::string token = "\xd8\xa5";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd8\xa7");  // ا
+}
+
+TEST_F(ArabicNormalizationFilterTest, AlefWaslaNormalized) {
+  // ٱ (U+0671) → ا (U+0627)
+  std::string token = "\xd9\xb1";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd8\xa7");  // ا
+}
+
+// --- Teh marbuta → heh ---
+
+TEST_F(ArabicNormalizationFilterTest, TehMarbutaNormalized) {
+  // مدرسة (with teh marbuta ة U+0629) → مدرسه (with heh ه U+0647)
+  std::string token = "\xd9\x85\xd8\xaf\xd8\xb1\xd8\xb3\xd8\xa9";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd9\x85\xd8\xaf\xd8\xb1\xd8\xb3\xd9\x87");
+}
+
+// --- Alef maksura → yeh ---
+
+TEST_F(ArabicNormalizationFilterTest, AlefMaksuraNormalized) {
+  // على (with alef maksura ى U+0649) → علي (with yeh ي U+064A)
+  std::string token = "\xd8\xb9\xd9\x84\xd9\x89";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "\xd8\xb9\xd9\x84\xd9\x8a");  // علي
+}
+
+// --- Combined normalization ---
+
+TEST_F(ArabicNormalizationFilterTest, CombinedNormalization) {
+  // أُمَّةٌ → امه (alef hamza→alef, strip tashkeel, teh marbuta→heh)
+  // أ (U+0623) + ُ (U+064F) + م (U+0645) + َّ (U+064E+U+0651) +
+  // ة (U+0629) + ٌ (U+064C)
+  std::string token =
+      "\xd8\xa3\xd9\x8f\xd9\x85\xd9\x8e\xd9\x91\xd8\xa9\xd9\x8c";
+  EXPECT_TRUE(filter_.Apply(token));
+  // Expected: ا (U+0627) + م (U+0645) + ه (U+0647)
+  EXPECT_EQ(token, "\xd8\xa7\xd9\x85\xd9\x87");
+}
+
+// --- Non-Arabic text passes through unchanged ---
+
+TEST_F(ArabicNormalizationFilterTest, LatinTextUnchanged) {
+  std::string token = "hello";
+  EXPECT_TRUE(filter_.Apply(token));
+  EXPECT_EQ(token, "hello");
+}
+
+TEST_F(ArabicNormalizationFilterTest, EmptyTokenDropped) {
+  std::string token;
+  EXPECT_FALSE(filter_.Apply(token));
 }
 
 }  // namespace valkey_search::indexes::text
