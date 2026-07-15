@@ -444,3 +444,124 @@ class TestTextSearchCompatibility(BaseCompatibilityTest):
     def test_text_search_fuzzy(self, key_type, dialect, schema_type):
         """Test fuzzy search with Levenshtein distance 1."""
         self._run_test(gen_fuzzy_1, "pure text", key_type, dialect, schema_type)
+
+
+# ============================================================================
+# Multi-language compatibility tests
+# ============================================================================
+# All supported non-English languages from the Language enum in index_schema.proto
+MULTILANG_LANGUAGES = [
+    "french", "german", "spanish", "italian", "portuguese",
+    "russian", "swedish", "turkish", "dutch", "indonesian", "arabic",
+]
+
+# Map language name to its dataset name in TEXT_DATASETS
+LANG_TO_DATASET = {lang: f"{lang} text" for lang in MULTILANG_LANGUAGES}
+
+
+@pytest.mark.parametrize("language", MULTILANG_LANGUAGES)
+@pytest.mark.parametrize("schema_type", ["default", "nostem"])
+@pytest.mark.parametrize("dialect", [2])
+@pytest.mark.parametrize("key_type", ["hash", "json"])
+class TestMultiLangTextSearchCompatibility(BaseCompatibilityTest):
+    """Compatibility tests for non-English language text search.
+
+    Exercises the same query patterns as TestTextSearchCompatibility but
+    against language-specific datasets with LANGUAGE set in FT.CREATE.
+    """
+    TEXT_QUERY_TEST_SEED = 7721
+    MAX_QUERIES = 200  # Fewer per-language to keep total pickle size manageable
+    ANSWER_FILE_NAME = "text-search-multilang-answers.pickle.gz"
+
+    def setup_data(self, data_set_name, key_type, schema_type):
+        """Override to specify text data source with language."""
+        self.data_set_name = data_set_name
+        self.key_type = key_type
+        self.schema_type = schema_type
+        self.client.execute_command("FLUSHALL SYNC")
+        load_data(self.client, data_set_name, key_type, data_source='text', schema_type=schema_type)
+
+    def execute_command(self, cmd):
+        """Override to include schema_type and language in answer."""
+        answer = {"cmd": cmd,
+                "key_type": self.key_type,
+                "data_set_name": self.data_set_name,
+                "schema_type": self.schema_type,
+                "testname": os.environ.get('PYTEST_CURRENT_TEST').split(':')[-1].split(' ')[0],
+                "traceback": "".join(traceback.format_stack())}
+        try:
+            print("Cmd:", *cmd)
+            answer["result"] = self.client.execute_command(*cmd)
+            answer["exception"] = False
+            if answer["result"] != [0]:
+                self.__class__.replied_count += 1
+            print(f"replied: {answer['result']} (count: {self.__class__.replied_count})")
+        except Exception as exc:
+            print(f"Got exception for Error: '{exc}', Cmd:{cmd}")
+            answer["result"] = {}
+            answer["exception"] = True
+        self.answers.append(answer)
+
+    def _run_test(self, builder_fn, data_set_name, key_type, dialect, schema_type,
+                  inorder=False, slop=False, field=None):
+        """Run a test with given term builder function against a language dataset."""
+        self.setup_data(data_set_name, key_type, schema_type)
+        rng = random.Random(self.TEXT_QUERY_TEST_SEED)
+        renderer = TermRenderer()
+        vocab_by_field = data_sets.extract_vocab_by_field_from_text_data(data_set_name, key_type)
+
+        seen = set()
+        query_count = 0
+        attempts = 0
+        max_attempts = self.MAX_QUERIES * 20
+
+        while query_count < self.MAX_QUERIES and attempts < max_attempts:
+            attempts += 1
+            selected_field = field if field is not None else rng.choice(list(vocab_by_field.keys()))
+            vocab = vocab_by_field[selected_field]
+
+            try:
+                result = builder_fn(vocab, rng)
+                current_query = result if isinstance(result, str) else renderer.render(result)
+                if current_query in seen:
+                    continue
+                seen.add(current_query)
+
+                args = ["FT.SEARCH", f"{key_type}_idx1", current_query]
+                if inorder:
+                    args.append("INORDER")
+                if slop:
+                    args.extend(["SLOP", str(rng.randint(1, 2))])
+                args.extend(["DIALECT", str(dialect)])
+                self.check(*args)
+                query_count += 1
+
+            except Exception:
+                continue
+
+        print(f"Generated {query_count} unique queries from {attempts} attempts")
+
+    # ========================================================================
+    # Core query types — exercised per language
+    # ========================================================================
+
+    def test_multilang_exact_match(self, key_type, dialect, schema_type, language):
+        """Test exact word matching in the given language."""
+        self._run_test(gen_word, LANG_TO_DATASET[language], key_type, dialect, schema_type)
+
+    def test_multilang_prefix(self, key_type, dialect, schema_type, language):
+        """Test prefix wildcard queries in the given language."""
+        self._run_test(gen_prefix, LANG_TO_DATASET[language], key_type, dialect, schema_type)
+
+    def test_multilang_suffix(self, key_type, dialect, schema_type, language):
+        """Test suffix wildcard queries in the given language."""
+        self._run_test(gen_suffix, LANG_TO_DATASET[language], key_type, dialect, schema_type)
+
+    def test_multilang_group_depth2(self, key_type, dialect, schema_type, language):
+        """Test grouped queries with depth 2 in the given language."""
+        self._run_test(gen_depth2, LANG_TO_DATASET[language], key_type, dialect, schema_type)
+
+    def test_multilang_fuzzy(self, key_type, dialect, schema_type, language):
+        """Test fuzzy search with Levenshtein distance 1 in the given language."""
+        self._run_test(gen_fuzzy_1, LANG_TO_DATASET[language], key_type, dialect, schema_type)
+
