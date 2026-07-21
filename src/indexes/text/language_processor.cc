@@ -266,42 +266,98 @@ PunctuationQueryTokenizer::NextUnquotedToken(
     return std::nullopt;
   }
 
-  // Check if we're already at a query syntax char
-  {
-    utils::Scanner s(text.substr(pos));
-    auto cp = s.NextUtf8();
-    if (cp != utils::Scanner::kEOF && cp != utils::Scanner::kInvalidCp &&
-        is_query_syntax(cp)) {
-      hit_query_syntax = true;
-      return std::nullopt;
-    }
-  }
-
+  // --- ASCII FAST PATH ---
+  // For pure-ASCII text (the common case for English queries), avoid
+  // constructing Scanner objects and decoding UTF-8 per character.
   std::string content;
   size_t cursor = pos;
   bool building_token = false;
 
   while (cursor < text.size()) {
-    // Check for backslash escape
-    if (text[cursor] == '\\') {
-      if (!building_token) {
-        building_token = true;
-      }
+    unsigned char ch = static_cast<unsigned char>(text[cursor]);
+
+    // Non-ASCII byte: delegate remainder to UTF-8 slow path
+    if (ch >= 0x80) {
+      return NextUnquotedTokenUtf8(text, pos, cursor, hit_query_syntax,
+                                   is_query_syntax, std::move(content),
+                                   building_token);
+    }
+
+    // Backslash escape: delegate to HandleEscape (handles both paths)
+    if (ch == '\\') {
+      if (!building_token) building_token = true;
       VMSDK_ASSIGN_OR_RETURN(auto esc_result,
                              HandleEscape(text, cursor, content));
-      if (esc_result == EscapeResult::kBreakToken) {
-        break;
+      if (esc_result == EscapeResult::kBreakToken) break;
+      // If HandleEscape consumed a non-ASCII char, bail to slow path
+      if (cursor < text.size() &&
+          static_cast<unsigned char>(text[cursor]) >= 0x80) {
+        return NextUnquotedTokenUtf8(text, pos, cursor, hit_query_syntax,
+                                     is_query_syntax, std::move(content),
+                                     building_token);
       }
+      continue;
+    }
+
+    uint32_t cp = ch;
+    if (is_query_syntax(cp)) {
+      hit_query_syntax = true;
+      break;
+    }
+    if (segmenter_.IsPunctuation(cp)) {
+      if (building_token) break;
+      // Still skipping leading punctuation
+      ++cursor;
+      continue;
+    }
+
+    // Regular ASCII character — append to token
+    building_token = true;
+    content.push_back(static_cast<char>(ch));
+    ++cursor;
+  }
+
+  // Fast path completed — return result
+  if (building_token) {
+    return std::make_optional(Token{std::move(content), cursor - pos});
+  }
+  if (hit_query_syntax) {
+    size_t bytes_consumed = cursor - pos;
+    if (bytes_consumed == 0) {
+      return std::nullopt;
+    }
+    return std::make_optional(Token{"", bytes_consumed});
+  }
+  if (cursor == pos) {
+    return std::nullopt;
+  }
+  return std::make_optional(Token{std::move(content), cursor - pos});
+}
+
+// --- UTF-8 SLOW PATH ---
+// Handles non-ASCII text using full Scanner-based codepoint decoding.
+// Can be called mid-token (carrying over state from the ASCII fast path).
+absl::StatusOr<std::optional<QueryTokenizer::Token>>
+PunctuationQueryTokenizer::NextUnquotedTokenUtf8(
+    absl::string_view text, size_t start_pos, size_t cursor,
+    bool &hit_query_syntax,
+    absl::FunctionRef<bool(uint32_t cp)> is_query_syntax, std::string content,
+    bool building_token) const {
+  while (cursor < text.size()) {
+    // Check for backslash escape
+    if (text[cursor] == '\\') {
+      if (!building_token) building_token = true;
+      VMSDK_ASSIGN_OR_RETURN(auto esc_result,
+                             HandleEscape(text, cursor, content));
+      if (esc_result == EscapeResult::kBreakToken) break;
       continue;
     }
 
     utils::Scanner s(text.substr(cursor));
     auto cp = s.NextUtf8();
-    if (cp == utils::Scanner::kEOF) {
-      break;
-    }
+    if (cp == utils::Scanner::kEOF) break;
     if (cp == utils::Scanner::kInvalidCp) {
-      // Invalid UTF-8 -- replace with U+FFFD and treat as content
+      // Invalid UTF-8 — replace with U+FFFD and treat as content
       utils::Scanner::PushBackUtf8(content, 0xFFFD);
       cursor += s.LastUtf8ByteLen();
       building_token = true;
@@ -312,9 +368,7 @@ PunctuationQueryTokenizer::NextUnquotedToken(
       break;
     }
     if (segmenter_.IsPunctuation(cp)) {
-      if (building_token) {
-        break;
-      }
+      if (building_token) break;
       // Still skipping leading punctuation
       cursor += s.LastUtf8ByteLen();
       continue;
@@ -327,17 +381,12 @@ PunctuationQueryTokenizer::NextUnquotedToken(
   }
 
   if (!building_token && hit_query_syntax) {
-    size_t bytes_consumed = cursor - pos;
-    if (bytes_consumed == 0) {
-      return std::nullopt;
-    }
+    size_t bytes_consumed = cursor - start_pos;
+    if (bytes_consumed == 0) return std::nullopt;
     return std::make_optional(Token{"", bytes_consumed});
   }
-
-  size_t bytes_consumed = cursor - pos;
-  if (bytes_consumed == 0) {
-    return std::nullopt;
-  }
+  size_t bytes_consumed = cursor - start_pos;
+  if (bytes_consumed == 0) return std::nullopt;
   return std::make_optional(Token{std::move(content), bytes_consumed});
 }
 

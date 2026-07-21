@@ -787,12 +787,13 @@ absl::StatusOr<FilterParser::TokenResult> FilterParser::ParseUnquotedTextToken(
                                                  std::move(raw_content)),
         break_on_query_syntax};
   } else {
-    // Regular term: apply full filter chain (normalize + stop-word + any
-    // future filters) — matches ingestion's ApplyFilters pipeline.
+    // Regular term: apply query-time filter (normalize + stop-word check).
+    // At query time we normalize and check stop words but never stem — stems
+    // are resolved via the stem tree at lookup time.
     if (raw_content.empty()) {
       return FilterParser::TokenResult{nullptr, break_on_query_syntax};
     }
-    if (!processor.ProcessWord(raw_content)) {
+    if (!processor.ProcessWordForQuery(raw_content)) {
       return FilterParser::TokenResult{nullptr, break_on_query_syntax};
     }
     if (raw_content.empty()) {

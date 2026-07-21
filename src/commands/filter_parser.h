@@ -52,7 +52,7 @@ inline QueryOperations operator|(QueryOperations a, QueryOperations b) {
                                       static_cast<uint64_t>(b));
 }
 
-inline QueryOperations& operator|=(QueryOperations& a, QueryOperations b) {
+inline QueryOperations &operator|=(QueryOperations &a, QueryOperations b) {
   return a = a | b;
 }
 
@@ -68,8 +68,8 @@ struct FilterParseResults {
 };
 class FilterParser {
  public:
-  FilterParser(const IndexSchema& index_schema, absl::string_view expression,
-               const TextParsingOptions& options);
+  FilterParser(const IndexSchema &index_schema, absl::string_view expression,
+               const TextParsingOptions &options);
 
   absl::StatusOr<FilterParseResults> Parse();
 
@@ -79,8 +79,8 @@ class FilterParser {
       absl::string_view tag_string);
 
  private:
-  const TextParsingOptions& options_;
-  const IndexSchema& index_schema_;
+  const TextParsingOptions &options_;
+  const IndexSchema &index_schema_;
   absl::string_view expression_;
   size_t pos_{0};
   size_t node_count_{0};
@@ -93,17 +93,17 @@ class FilterParser {
   };
   absl::StatusOr<TokenResult> ParseQuotedTextToken(
       std::shared_ptr<indexes::text::TextIndexSchema> text_index_schema,
-      const std::optional<std::string>& field_or_default);
+      const std::optional<std::string> &field_or_default);
 
   absl::StatusOr<TokenResult> ParseUnquotedTextToken(
       std::shared_ptr<indexes::text::TextIndexSchema> text_index_schema,
-      const std::optional<std::string>& field_or_default);
+      const std::optional<std::string> &field_or_default);
 
   absl::Status SetupTextFieldConfiguration(
-      FieldMaskPredicate& field_mask,
-      const std::optional<std::string>& field_name, bool with_suffix);
+      FieldMaskPredicate &field_mask,
+      const std::optional<std::string> &field_name, bool with_suffix);
   absl::StatusOr<std::optional<std::unique_ptr<query::Predicate>>>
-  ParseTextTokens(const std::optional<std::string>& field_for_default);
+  ParseTextTokens(const std::optional<std::string> &field_for_default);
   absl::StatusOr<bool> IsMatchAllExpression();
 
   // Struct to hold parsing state including predicate, bracket counter, and
@@ -118,11 +118,11 @@ class FilterParser {
 
   absl::StatusOr<ParseResult> ParseExpression(uint32_t level);
   absl::StatusOr<std::unique_ptr<query::NumericPredicate>>
-  ParseNumericPredicate(const std::string& attribute_alias);
+  ParseNumericPredicate(const std::string &attribute_alias);
   absl::StatusOr<std::unique_ptr<query::TagPredicate>> ParseTagPredicate(
-      const std::string& attribute_alias);
+      const std::string &attribute_alias);
   absl::StatusOr<std::unique_ptr<query::TextPredicate>> ParseTextPredicate(
-      const std::string& field_name);
+      const std::string &field_name);
   void SkipWhitespace();
 
   char Peek() const { return expression_[pos_]; }
@@ -142,33 +142,38 @@ class FilterParser {
   // is possible; the caller decides how to tolerate it (see the token loops).
   Peeked PeekCodepoint() const {
     CHECK(!IsEnd());
+    unsigned char lead = static_cast<unsigned char>(expression_[pos_]);
+    if (lead < 0x80) {
+      // ASCII fast-path: single byte = single codepoint, no Scanner needed.
+      return {static_cast<uint32_t>(lead), 1};
+    }
+    // Non-ASCII: full UTF-8 decode via Scanner.
     utils::Scanner s(expression_.substr(pos_));
     utils::Scanner::Char cp = s.NextUtf8();
-    // !IsEnd() guarantees at least one byte, so cp is never kEOF here.
     return {static_cast<uint32_t>(cp), s.LastUtf8ByteLen()};
   }
 
   // Append the peeked code point's bytes to `dest` and advance past it.
   // Keeps cp and byte_len together — callers never touch byte_len directly.
-  void ConsumePeeked(const Peeked& p, std::string& dest) {
+  void ConsumePeeked(const Peeked &p, std::string &dest) {
     dest.append(expression_.data() + pos_, p.byte_len);
     pos_ += p.byte_len;
   }
 
   // Advance past the peeked code point without copying it.
-  void SkipPeeked(const Peeked& p) { pos_ += p.byte_len; }
+  void SkipPeeked(const Peeked &p) { pos_ += p.byte_len; }
 
   // Replace a malformed code point with U+FFFD and skip it. Legacy (< 1.4.0)
   // text-token path only; >= 1.4.0 rejects upfront in Parse(). Mirrors
   // Scanner::ReplaceInvalidUtf8, applied per token here.
-  void ReplaceInvalidUtf8(const Peeked& p, std::string& dest) {
+  void ReplaceInvalidUtf8(const Peeked &p, std::string &dest) {
     utils::Scanner::PushBackUtf8(dest, 0xFFFD);
     SkipPeeked(p);
   }
 
   bool IsEnd() const { return pos_ >= expression_.length(); }
   bool Match(char expected, bool skip_whitespace = true);
-  bool MatchInsensitive(const std::string& expected);
+  bool MatchInsensitive(const std::string &expected);
   absl::StatusOr<std::string> ParseFieldName();
 
   absl::StatusOr<double> ParseNumber();
@@ -177,27 +182,27 @@ class FilterParser {
 
   absl::StatusOr<std::unique_ptr<query::Predicate>> WrapPredicate(
       std::unique_ptr<query::Predicate> prev_predicate,
-      std::unique_ptr<query::Predicate> predicate, bool& negate,
+      std::unique_ptr<query::Predicate> predicate, bool &negate,
       query::LogicalOperator logical_operator, bool no_prev_grp,
       bool not_rightmost_bracket);
   void FlagNestedComposedPredicate(
-      std::unique_ptr<query::Predicate>& predicate);
+      std::unique_ptr<query::Predicate> &predicate);
 };
 
 // Helper function to print predicate tree structure using DFS
-std::string PrintPredicateTree(const query::Predicate* predicate,
+std::string PrintPredicateTree(const query::Predicate *predicate,
                                int indent = 0);
 
 namespace options {
 
 /// Return the value of the Query String Depth configuration
-vmsdk::config::Number& GetQueryStringDepth();
+vmsdk::config::Number &GetQueryStringDepth();
 
 /// Return the value of the Query String Terms Count configuration
-vmsdk::config::Number& GetQueryStringTermsCount();
+vmsdk::config::Number &GetQueryStringTermsCount();
 
 /// Return the value of the Fuzzy Max Distance configuration
-vmsdk::config::Number& GetFuzzyMaxDistance();
+vmsdk::config::Number &GetFuzzyMaxDistance();
 }  // namespace options
 
 }  // namespace valkey_search

@@ -185,6 +185,19 @@ class Scanner {
   // out-of-range, or truncated sequences). Used as the ingestion gate in
   // LanguageProcessor::Tokenize implementations.
   static bool IsValidUtf8(absl::string_view text) {
+    // ASCII fast-path: all bytes < 0x80 are valid UTF-8 by definition.
+    // Avoids Scanner construction and per-byte state machine decoding
+    // for the common case (English/Latin queries).
+    bool all_ascii = true;
+    for (char c : text) {
+      if (static_cast<unsigned char>(c) >= 0x80) {
+        all_ascii = false;
+        break;
+      }
+    }
+    if (all_ascii) return true;
+
+    // Non-ASCII: full codepoint validation
     Scanner s(text);
     Char cp;
     while ((cp = s.NextUtf8()) != kEOF) {
@@ -290,7 +303,7 @@ class Scanner {
     absl::string_view s(sv_);
     s.remove_prefix(pos_);
     std::string null_terminated(s);
-    char* scanned{nullptr};
+    char *scanned{nullptr};
     d = std::strtod(null_terminated.data(), &scanned);
     if (scanned == null_terminated.data()) {
       return std::nullopt;
@@ -313,7 +326,7 @@ class Scanner {
     return copy;
   }
 
-  static std::string& PushBackUtf8(std::string& s, Scanner::Char codepoint) {
+  static std::string &PushBackUtf8(std::string &s, Scanner::Char codepoint) {
     if (codepoint <= 0x7F) {
       s += char(codepoint);
     } else if (codepoint <= 0x7FF) {

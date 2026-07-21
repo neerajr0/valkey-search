@@ -231,8 +231,8 @@ class NormalizeCaseFoldFilter : public Normalizer {
       NormalizationForm form = NormalizationForm::NFC,
       const std::string &locale = "");
 
-  bool Apply(std::string &token) const override;
-  void NormalizeInPlace(std::string &token) const override;
+  bool Apply(std::string &token) const final;
+  void NormalizeInPlace(std::string &token) const final;
 
   /// Get the normalization form used by this filter.
   NormalizationForm GetNormForm() const { return norm_form_; }
@@ -251,7 +251,7 @@ class StopWordFilter : public TokenFilter {
   explicit StopWordFilter(const std::vector<std::string> &stop_words);
   explicit StopWordFilter(absl::flat_hash_set<std::string> stop_words_set);
 
-  bool Apply(std::string &token) const override;
+  bool Apply(std::string &token) const final;
 
   /// Returns true if the given word is a stop word.
   bool IsStopWord(absl::string_view word) const;
@@ -298,6 +298,15 @@ class PunctuationQueryTokenizer : public QueryTokenizer {
   absl::StatusOr<EscapeResult> HandleEscape(absl::string_view text,
                                             size_t &cursor,
                                             std::string &content) const;
+
+  /// UTF-8 slow path for NextUnquotedToken. Processes text starting at
+  /// text[cursor], carrying over any partially-built token state.
+  /// Called when the ASCII fast path encounters a non-ASCII byte.
+  absl::StatusOr<std::optional<Token>> NextUnquotedTokenUtf8(
+      absl::string_view text, size_t start_pos, size_t cursor,
+      bool &hit_query_syntax,
+      absl::FunctionRef<bool(uint32_t cp)> is_query_syntax, std::string content,
+      bool building_token) const;
 
   const PunctuationSegmenter &segmenter_;
 };
@@ -356,6 +365,22 @@ class LanguageProcessor {
   /// Use for query tokens that need the full filter pipeline without
   /// re-segmentation (e.g., unquoted plain terms).
   bool ProcessWord(std::string &token) const;
+
+  /// Query-time token processing: normalize then check stop words.
+  /// This is the correct query-path behavior for all languages — at query time
+  /// we normalize and filter stop words, but never stem (stems are resolved
+  /// via the stem tree at lookup time). This avoids the filter vector iteration
+  /// and virtual dispatch overhead of ProcessWord().
+  bool ProcessWordForQuery(std::string &token) const {
+    if (normalizer_) {
+      normalizer_->NormalizeInPlace(token);
+    }
+    if (token.empty()) return false;
+    if (stop_word_filter_ && stop_word_filter_->IsStopWord(token)) {
+      return false;
+    }
+    return true;
+  }
 
   /// Get the normalizer. Always non-null — every language has normalization.
   /// O(1) access.
