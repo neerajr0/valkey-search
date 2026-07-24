@@ -1,0 +1,4738 @@
+[
+  {
+    "test_name": "FTS Multi-Language Performance Benchmarks",
+    "seed": false,
+    "socket_timeout": 300,
+    "dataset_generation": {
+      "wiki_en_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "en",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "en"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_en_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "en",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "en"
+            }
+          ]
+        }
+      },
+      "stemmable_en_10k.csv": {
+        "doc_count": 10000,
+        "language": "en",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "en",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_en_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "en",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "en"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_fr_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "fr",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "fr"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_fr_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "fr",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "fr"
+            }
+          ]
+        }
+      },
+      "stemmable_fr_10k.csv": {
+        "doc_count": 10000,
+        "language": "fr",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "fr",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_fr_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "fr",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "fr"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_de_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "de",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "de"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_de_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "de",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "de"
+            }
+          ]
+        }
+      },
+      "stemmable_de_10k.csv": {
+        "doc_count": 10000,
+        "language": "de",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "de",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_de_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "de",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "de"
+              }
+            ]
+          }
+        ]
+      },
+      "compound_de_50k.csv": {
+        "doc_count": 50000,
+        "language": "de",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 10000,
+            "transforms": [
+              {
+                "type": "compound_words",
+                "language": "de"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_es_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "es",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "es"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_es_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "es",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "es"
+            }
+          ]
+        }
+      },
+      "stemmable_es_10k.csv": {
+        "doc_count": 10000,
+        "language": "es",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "es",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_es_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "es",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "es"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_it_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "it",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "it"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_it_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "it",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "it"
+            }
+          ]
+        }
+      },
+      "stemmable_it_10k.csv": {
+        "doc_count": 10000,
+        "language": "it",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "it",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_it_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "it",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "it"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_pt_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "pt",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "pt"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_pt_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "pt",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "pt"
+            }
+          ]
+        }
+      },
+      "stemmable_pt_10k.csv": {
+        "doc_count": 10000,
+        "language": "pt",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "pt",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_pt_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "pt",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "pt"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_ru_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "ru",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "ru"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_ru_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "ru",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "ru"
+            }
+          ]
+        }
+      },
+      "stemmable_ru_10k.csv": {
+        "doc_count": 10000,
+        "language": "ru",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "ru",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_ru_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "ru",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "ru"
+              }
+            ]
+          }
+        ]
+      },
+      "multibyte_ru_50k.csv": {
+        "doc_count": 50000,
+        "language": "ru",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 10000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "ru"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_sv_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "sv",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "sv"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_sv_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "sv",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "sv"
+            }
+          ]
+        }
+      },
+      "stemmable_sv_10k.csv": {
+        "doc_count": 10000,
+        "language": "sv",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "sv",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_sv_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "sv",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "sv"
+              }
+            ]
+          }
+        ]
+      },
+      "compound_sv_50k.csv": {
+        "doc_count": 50000,
+        "language": "sv",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 10000,
+            "transforms": [
+              {
+                "type": "compound_words",
+                "language": "sv"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_tr_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "tr",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "tr"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_tr_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "tr",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "tr"
+            }
+          ]
+        }
+      },
+      "stemmable_tr_10k.csv": {
+        "doc_count": 10000,
+        "language": "tr",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "tr",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_tr_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "tr",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "tr"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_nl_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "nl",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "nl"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_nl_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "nl",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "nl"
+            }
+          ]
+        }
+      },
+      "stemmable_nl_10k.csv": {
+        "doc_count": 10000,
+        "language": "nl",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "nl",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_nl_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "nl",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "nl"
+              }
+            ]
+          }
+        ]
+      },
+      "compound_nl_50k.csv": {
+        "doc_count": 50000,
+        "language": "nl",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 10000,
+            "transforms": [
+              {
+                "type": "compound_words",
+                "language": "nl"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_id_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "id",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "id"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_id_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "id",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "id"
+            }
+          ]
+        }
+      },
+      "stemmable_id_10k.csv": {
+        "doc_count": 10000,
+        "language": "id",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "id",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_id_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "id",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "id"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_ar_100k_1field.xml": {
+        "doc_count": 100000,
+        "language": "ar",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 5000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "ar"
+              }
+            ]
+          }
+        ]
+      },
+      "wiki_ar_50k_10field.xml": {
+        "doc_count": 50000,
+        "language": "ar",
+        "generate_fields": {
+          "count": 10,
+          "prefix": "field",
+          "size": 5000,
+          "transforms": [
+            {
+              "type": "wikipedia",
+              "language": "ar"
+            }
+          ]
+        }
+      },
+      "stemmable_ar_10k.csv": {
+        "doc_count": 10000,
+        "language": "ar",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500000,
+            "transforms": [
+              {
+                "type": "stemmable_words",
+                "language": "ar",
+                "token_count": 10000
+              }
+            ]
+          }
+        ]
+      },
+      "proximity_ar_5term_100k.csv": {
+        "doc_count": 100000,
+        "language": "ar",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 500,
+            "transforms": [
+              {
+                "type": "proximity_phrase",
+                "term_count": 5,
+                "combinations": 100,
+                "repeats": 1000,
+                "language": "ar"
+              }
+            ]
+          }
+        ]
+      },
+      "multibyte_ar_50k.csv": {
+        "doc_count": 50000,
+        "language": "ar",
+        "fields": [
+          {
+            "name": "field1",
+            "size": 10000,
+            "transforms": [
+              {
+                "type": "wikipedia",
+                "language": "ar"
+              }
+            ]
+          }
+        ]
+      },
+      "unicode_stress_test_10k.csv": {
+        "doc_count": 10000,
+        "fields": [
+          {
+            "name": "field1",
+            "size": 50000,
+            "transforms": [
+              {
+                "type": "unicode_stress_test"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "query_generation": {
+      "search_terms_en.csv": {
+        "type": "extracted_terms",
+        "language": "en",
+        "source_dataset": "wiki_en_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_en_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "en",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_en.csv": {
+        "type": "stemming_variants",
+        "language": "en",
+        "doc_count": 100
+      },
+      "search_terms_fr.csv": {
+        "type": "extracted_terms",
+        "language": "fr",
+        "source_dataset": "wiki_fr_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_fr_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "fr",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_fr.csv": {
+        "type": "stemming_variants",
+        "language": "fr",
+        "doc_count": 100
+      },
+      "search_terms_de.csv": {
+        "type": "extracted_terms",
+        "language": "de",
+        "source_dataset": "wiki_de_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_de_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "de",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_de.csv": {
+        "type": "stemming_variants",
+        "language": "de",
+        "doc_count": 100
+      },
+      "search_terms_es.csv": {
+        "type": "extracted_terms",
+        "language": "es",
+        "source_dataset": "wiki_es_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_es_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "es",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_es.csv": {
+        "type": "stemming_variants",
+        "language": "es",
+        "doc_count": 100
+      },
+      "search_terms_it.csv": {
+        "type": "extracted_terms",
+        "language": "it",
+        "source_dataset": "wiki_it_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_it_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "it",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_it.csv": {
+        "type": "stemming_variants",
+        "language": "it",
+        "doc_count": 100
+      },
+      "search_terms_pt.csv": {
+        "type": "extracted_terms",
+        "language": "pt",
+        "source_dataset": "wiki_pt_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_pt_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "pt",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_pt.csv": {
+        "type": "stemming_variants",
+        "language": "pt",
+        "doc_count": 100
+      },
+      "search_terms_ru.csv": {
+        "type": "extracted_terms",
+        "language": "ru",
+        "source_dataset": "wiki_ru_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_ru_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "ru",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_ru.csv": {
+        "type": "stemming_variants",
+        "language": "ru",
+        "doc_count": 100
+      },
+      "search_terms_sv.csv": {
+        "type": "extracted_terms",
+        "language": "sv",
+        "source_dataset": "wiki_sv_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_sv_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "sv",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_sv.csv": {
+        "type": "stemming_variants",
+        "language": "sv",
+        "doc_count": 100
+      },
+      "search_terms_tr.csv": {
+        "type": "extracted_terms",
+        "language": "tr",
+        "source_dataset": "wiki_tr_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_tr_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "tr",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_tr.csv": {
+        "type": "stemming_variants",
+        "language": "tr",
+        "doc_count": 100
+      },
+      "search_terms_nl.csv": {
+        "type": "extracted_terms",
+        "language": "nl",
+        "source_dataset": "wiki_nl_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_nl_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "nl",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_nl.csv": {
+        "type": "stemming_variants",
+        "language": "nl",
+        "doc_count": 100
+      },
+      "search_terms_id.csv": {
+        "type": "extracted_terms",
+        "language": "id",
+        "source_dataset": "wiki_id_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_id_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "id",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_id.csv": {
+        "type": "stemming_variants",
+        "language": "id",
+        "doc_count": 100
+      },
+      "search_terms_ar.csv": {
+        "type": "extracted_terms",
+        "language": "ar",
+        "source_dataset": "wiki_ar_100k_1field.xml",
+        "doc_count": 200
+      },
+      "proximity_ar_5term_queries.csv": {
+        "type": "proximity_phrase",
+        "language": "ar",
+        "doc_count": 100,
+        "term_count": 5
+      },
+      "stemming_queries_ar.csv": {
+        "type": "stemming_variants",
+        "language": "ar",
+        "doc_count": 100
+      }
+    },
+    "test_groups": [
+      {
+        "group": 1,
+        "description": "Indexing throughput - english (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE english SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_en_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 2,
+        "description": "Query throughput - english (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE english SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_en_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - english",
+            "dataset": "datasets/search_terms_en.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - english",
+            "dataset": "datasets/search_terms_en.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - english",
+            "dataset": "datasets/proximity_en_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 3,
+        "description": "Stemming performance - english (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE english SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_en_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - english",
+            "dataset": "datasets/stemming_queries_en.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 4,
+        "description": "Multi-field indexing - english (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE english SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_en_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 5,
+        "description": "NOSTEM vs stemmed comparison - english",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "english with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE english SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_en_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "english with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE english SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_en_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 6,
+        "description": "Mixed workload - english (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - english",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE english SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_en_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_en.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_en.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 7,
+        "description": "Indexing throughput - french (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE french SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_fr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 8,
+        "description": "Query throughput - french (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE french SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_fr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - french",
+            "dataset": "datasets/search_terms_fr.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - french",
+            "dataset": "datasets/search_terms_fr.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - french",
+            "dataset": "datasets/proximity_fr_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 9,
+        "description": "Stemming performance - french (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE french SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_fr_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - french",
+            "dataset": "datasets/stemming_queries_fr.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 10,
+        "description": "Multi-field indexing - french (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE french SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_fr_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 11,
+        "description": "NOSTEM vs stemmed comparison - french",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "french with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE french SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_fr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "french with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE french SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_fr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 12,
+        "description": "Mixed workload - french (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - french",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE french SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_fr_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_fr.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_fr.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 13,
+        "description": "Indexing throughput - german (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_de_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 14,
+        "description": "Query throughput - german (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_de_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - german",
+            "dataset": "datasets/search_terms_de.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - german",
+            "dataset": "datasets/search_terms_de.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - german",
+            "dataset": "datasets/proximity_de_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 15,
+        "description": "Stemming performance - german (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_de_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - german",
+            "dataset": "datasets/stemming_queries_de.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 16,
+        "description": "Multi-field indexing - german (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_de_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 17,
+        "description": "NOSTEM vs stemmed comparison - german",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "german with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_de_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "german with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_de_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 18,
+        "description": "Mixed workload - german (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - german",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_de_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_de.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_de.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 19,
+        "description": "Indexing throughput - spanish (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE spanish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_es_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 20,
+        "description": "Query throughput - spanish (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE spanish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_es_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - spanish",
+            "dataset": "datasets/search_terms_es.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - spanish",
+            "dataset": "datasets/search_terms_es.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - spanish",
+            "dataset": "datasets/proximity_es_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 21,
+        "description": "Stemming performance - spanish (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE spanish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_es_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - spanish",
+            "dataset": "datasets/stemming_queries_es.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 22,
+        "description": "Multi-field indexing - spanish (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE spanish SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_es_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 23,
+        "description": "NOSTEM vs stemmed comparison - spanish",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "spanish with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE spanish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_es_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "spanish with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE spanish SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_es_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 24,
+        "description": "Mixed workload - spanish (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - spanish",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE spanish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_es_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_es.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_es.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 25,
+        "description": "Indexing throughput - italian (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE italian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_it_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 26,
+        "description": "Query throughput - italian (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE italian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_it_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - italian",
+            "dataset": "datasets/search_terms_it.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - italian",
+            "dataset": "datasets/search_terms_it.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - italian",
+            "dataset": "datasets/proximity_it_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 27,
+        "description": "Stemming performance - italian (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE italian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_it_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - italian",
+            "dataset": "datasets/stemming_queries_it.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 28,
+        "description": "Multi-field indexing - italian (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE italian SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_it_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 29,
+        "description": "NOSTEM vs stemmed comparison - italian",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "italian with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE italian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_it_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "italian with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE italian SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_it_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 30,
+        "description": "Mixed workload - italian (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - italian",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE italian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_it_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_it.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_it.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 31,
+        "description": "Indexing throughput - portuguese (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE portuguese SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_pt_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 32,
+        "description": "Query throughput - portuguese (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE portuguese SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_pt_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - portuguese",
+            "dataset": "datasets/search_terms_pt.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - portuguese",
+            "dataset": "datasets/search_terms_pt.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - portuguese",
+            "dataset": "datasets/proximity_pt_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 33,
+        "description": "Stemming performance - portuguese (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE portuguese SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_pt_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - portuguese",
+            "dataset": "datasets/stemming_queries_pt.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 34,
+        "description": "Multi-field indexing - portuguese (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE portuguese SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_pt_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 35,
+        "description": "NOSTEM vs stemmed comparison - portuguese",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "portuguese with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE portuguese SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_pt_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "portuguese with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE portuguese SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_pt_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 36,
+        "description": "Mixed workload - portuguese (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - portuguese",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE portuguese SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_pt_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_pt.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_pt.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 37,
+        "description": "Indexing throughput - russian (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ru_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 38,
+        "description": "Query throughput - russian (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ru_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - russian",
+            "dataset": "datasets/search_terms_ru.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - russian",
+            "dataset": "datasets/search_terms_ru.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - russian",
+            "dataset": "datasets/proximity_ru_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 39,
+        "description": "Stemming performance - russian (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_ru_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - russian",
+            "dataset": "datasets/stemming_queries_ru.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 40,
+        "description": "Multi-field indexing - russian (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ru_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 41,
+        "description": "NOSTEM vs stemmed comparison - russian",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "russian with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ru_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "russian with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ru_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 42,
+        "description": "Mixed workload - russian (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - russian",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_ru_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_ru.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_ru.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 43,
+        "description": "Indexing throughput - swedish (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE swedish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_sv_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 44,
+        "description": "Query throughput - swedish (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE swedish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_sv_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - swedish",
+            "dataset": "datasets/search_terms_sv.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - swedish",
+            "dataset": "datasets/search_terms_sv.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - swedish",
+            "dataset": "datasets/proximity_sv_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 45,
+        "description": "Stemming performance - swedish (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE swedish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_sv_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - swedish",
+            "dataset": "datasets/stemming_queries_sv.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 46,
+        "description": "Multi-field indexing - swedish (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE swedish SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_sv_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 47,
+        "description": "NOSTEM vs stemmed comparison - swedish",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "swedish with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE swedish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_sv_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "swedish with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE swedish SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_sv_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 48,
+        "description": "Mixed workload - swedish (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - swedish",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE swedish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_sv_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_sv.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_sv.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 49,
+        "description": "Indexing throughput - turkish (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_tr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 50,
+        "description": "Query throughput - turkish (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_tr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - turkish",
+            "dataset": "datasets/search_terms_tr.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - turkish",
+            "dataset": "datasets/search_terms_tr.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - turkish",
+            "dataset": "datasets/proximity_tr_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 51,
+        "description": "Stemming performance - turkish (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_tr_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - turkish",
+            "dataset": "datasets/stemming_queries_tr.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 52,
+        "description": "Multi-field indexing - turkish (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_tr_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 53,
+        "description": "NOSTEM vs stemmed comparison - turkish",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "turkish with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_tr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "turkish with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_tr_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 54,
+        "description": "Mixed workload - turkish (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - turkish",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_tr_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_tr.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_tr.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 55,
+        "description": "Indexing throughput - dutch (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE dutch SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_nl_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 56,
+        "description": "Query throughput - dutch (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE dutch SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_nl_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - dutch",
+            "dataset": "datasets/search_terms_nl.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - dutch",
+            "dataset": "datasets/search_terms_nl.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - dutch",
+            "dataset": "datasets/proximity_nl_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 57,
+        "description": "Stemming performance - dutch (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE dutch SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_nl_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - dutch",
+            "dataset": "datasets/stemming_queries_nl.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 58,
+        "description": "Multi-field indexing - dutch (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE dutch SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_nl_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 59,
+        "description": "NOSTEM vs stemmed comparison - dutch",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "dutch with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE dutch SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_nl_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "dutch with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE dutch SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_nl_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 60,
+        "description": "Mixed workload - dutch (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - dutch",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE dutch SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_nl_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_nl.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_nl.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 61,
+        "description": "Indexing throughput - indonesian (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_id_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 62,
+        "description": "Query throughput - indonesian (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_id_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - indonesian",
+            "dataset": "datasets/search_terms_id.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - indonesian",
+            "dataset": "datasets/search_terms_id.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - indonesian",
+            "dataset": "datasets/proximity_id_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 63,
+        "description": "Stemming performance - indonesian (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_id_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - indonesian",
+            "dataset": "datasets/stemming_queries_id.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 64,
+        "description": "Multi-field indexing - indonesian (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_id_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 65,
+        "description": "NOSTEM vs stemmed comparison - indonesian",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "indonesian with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_id_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "indonesian with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_id_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 66,
+        "description": "Mixed workload - indonesian (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - indonesian",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_id_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_id.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_id.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 67,
+        "description": "Indexing throughput - arabic (100k docs, 1 field)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ar_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 68,
+        "description": "Query throughput - arabic (single/multi-term, proximity)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ar_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Single term query - arabic",
+            "dataset": "datasets/search_terms_ar.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Field-specific single term - arabic",
+            "dataset": "datasets/search_terms_ar.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "d",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "5-term proximity - arabic",
+            "dataset": "datasets/proximity_ar_5term_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term1__ @field1:__field:term2__ @field1:__field:term3__ @field1:__field:term4__ @field1:__field:term5__\" SLOP 3 INORDER",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 69,
+        "description": "Stemming performance - arabic (10k docs \u00d7 10k stemmable tokens)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_ar_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Stem-expanded query - arabic",
+            "dataset": "datasets/stemming_queries_ar.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 70,
+        "description": "Multi-field indexing - arabic (50k docs \u00d7 10 fields)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT field2 TEXT field3 TEXT field4 TEXT field5 TEXT field6 TEXT field7 TEXT field8 TEXT field9 TEXT field10 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ar_50k_10field.xml",
+            "xml_root_element": "doc",
+            "duration": 200,
+            "keyspacelen": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\" field2 \"__field:field2__\" field3 \"__field:field3__\" field4 \"__field:field4__\" field5 \"__field:field5__\" field6 \"__field:field6__\" field7 \"__field:field7__\" field8 \"__field:field8__\" field9 \"__field:field9__\" field10 \"__field:field10__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 71,
+        "description": "NOSTEM vs stemmed comparison - arabic",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "arabic with stemming enabled",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ar_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "write",
+            "cluster_execution": "single",
+            "description": "arabic with NOSTEM",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT NOSTEM"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/wiki_ar_100k_1field.xml",
+            "xml_root_element": "doc",
+            "maxdocs": 100000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 10,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "group": 72,
+        "description": "Mixed workload - arabic (30% write + 70% read)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "mixed",
+            "cluster_execution": "single",
+            "description": "30% writes + 70% reads concurrent - arabic",
+            "duration": 200,
+            "warmup": 60,
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            },
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "writes": [
+              {
+                "id": "w1",
+                "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+                "dataset": "datasets/wiki_ar_100k_1field.xml",
+                "xml_root_element": "doc",
+                "clients": 300
+              }
+            ],
+            "reads": [
+              {
+                "id": "r1",
+                "command": "FT.SEARCH rd0 \"__field:term__\"",
+                "dataset": "datasets/search_terms_ar.csv",
+                "clients": 350
+              },
+              {
+                "id": "r2",
+                "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+                "dataset": "datasets/search_terms_ar.csv",
+                "clients": 350
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": 73,
+        "description": "Turkish locale-aware case folding (\u0130/I edge cases)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE turkish SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/turkish_case_folding_50k.csv",
+            "maxdocs": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Turkish case folding queries (\u0130\u2192i, I\u2192\u0131)",
+            "dataset": "datasets/turkish_case_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 74,
+        "description": "Arabic NFKC normalization + presentation forms",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE arabic SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/arabic_normalization_50k.csv",
+            "maxdocs": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Arabic normalization queries (presentation forms \u2192 canonical)",
+            "dataset": "datasets/arabic_normalization_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 75,
+        "description": "German compound words (radix tree stress)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE german SCHEMA field1 TEXT WITHSUFFIXTRIE"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/compound_de_50k.csv",
+            "maxdocs": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Prefix search on German compounds",
+            "dataset": "datasets/german_prefix_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__*\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          },
+          {
+            "id": "c",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Suffix search on German compounds",
+            "dataset": "datasets/german_suffix_queries.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:*__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 76,
+        "description": "Russian Cyrillic multibyte throughput (2 bytes/char)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE russian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/multibyte_ru_50k.csv",
+            "maxdocs": 50000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Russian single term query",
+            "dataset": "datasets/search_terms_ru.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 77,
+        "description": "Indonesian affixation (stemmer fan-out stress)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- LANGUAGE indonesian SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/stemmable_id_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          },
+          {
+            "id": "b",
+            "type": "read",
+            "cluster_execution": "parallel",
+            "description": "Indonesian stem-expanded query",
+            "dataset": "datasets/stemming_queries_id.csv",
+            "clients": 1000,
+            "duration": 200,
+            "warmup": 60,
+            "command": "FT.SEARCH rd0 \"@field1:__field:term__\"",
+            "options": {
+              "": "",
+              "NOCONTENT": "_nocontent"
+            }
+          }
+        ]
+      },
+      {
+        "group": 78,
+        "description": "Unicode multibyte stress test (emoji, ideographic, mixed scripts)",
+        "scenarios": [
+          {
+            "id": "a",
+            "type": "write",
+            "cluster_execution": "single",
+            "setup_commands": [
+              "FT.CREATE rd0 ON HASH PREFIX 1 rd0- SCHEMA field1 TEXT"
+            ],
+            "flush_before": true,
+            "dataset": "datasets/unicode_stress_test_10k.csv",
+            "maxdocs": 10000,
+            "clients": 1000,
+            "sequential": true,
+            "command": "HSET rd0-{tag}:__rand_int__ field1 \"__field:field1__\"",
+            "profiling": {
+              "delays": {
+                "write": {
+                  "delay": 5,
+                  "duration": 10
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "port": 6379,
+    "cluster_mode": [
+      false,
+      true
+    ],
+    "cluster_nodes": 5,
+    "cluster_ports": [
+      6379,
+      6380,
+      6381,
+      6382,
+      6383
+    ],
+    "cpu_allocation": {
+      "cores_per_server": 8,
+      "cores_per_client": 8
+    },
+    "tls_mode": false,
+    "io-threads": 8,
+    "modules": [
+      {
+        "path": "../valkey-search/.build-release/libsearch.so",
+        "startup_args": [
+          "--use-coordinator",
+          "--debug-mode",
+          "yes"
+        ]
+      }
+    ],
+    "config_sets": [
+      {
+        "search.reader-threads": 1,
+        "search.writer-threads": 1,
+        "search.async-fanout-threshold": 4
+      },
+      {
+        "search.reader-threads": 8,
+        "search.writer-threads": 8,
+        "search.async-fanout-threshold": 4
+      }
+    ],
+    "monitoring": {
+      "cpu_enabled": false,
+      "per_cpu_enabled": false
+    },
+    "profiling_sets": [
+      {
+        "enabled": false
+      },
+      {
+        "enabled": true,
+        "mode": "wall-time",
+        "sampling_freq": 999,
+        "delays": {
+          "write": {
+            "delay": 0,
+            "duration": 10
+          },
+          "read": {
+            "delay": 60,
+            "duration": 10
+          }
+        }
+      }
+    ]
+  }
+]
