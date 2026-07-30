@@ -159,12 +159,23 @@ absl::StatusOr<bool> TextIndexSchema::StageAttributeData(
     return tokens.status();
   }
 
-  // Build stem mappings if stemming is enabled (ingestion-specific)
+  // Build stem mappings if stemming is enabled (ingestion-specific).
+  //
+  // Only hold in_progress_stem_mappings_mutex_ long enough to fetch the
+  // per-key entry. in_progress_stem_mappings_ is an absl::node_hash_map, so
+  // the returned pointer remains valid across concurrent insertions for
+  // other keys. Staging is single-threaded per key, so no other thread will
+  // touch *stem_mappings while BuildStemMap runs -- letting distinct keys
+  // stem in parallel (matches upstream's pattern in Lexer::Tokenize).
   if (stem) {
     if (auto *stem_filter = processor_->GetStemmer()) {
-      std::lock_guard<std::mutex> stem_guard(in_progress_stem_mappings_mutex_);
-      stem_filter->BuildStemMap(*tokens, min_stem_size_,
-                                in_progress_stem_mappings_[key]);
+      InProgressStemMap *stem_mappings;
+      {
+        std::lock_guard<std::mutex> stem_guard(
+            in_progress_stem_mappings_mutex_);
+        stem_mappings = &in_progress_stem_mappings_[key];
+      }
+      stem_filter->BuildStemMap(*tokens, min_stem_size_, *stem_mappings);
     }
   }
 
