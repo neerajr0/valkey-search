@@ -212,7 +212,9 @@ Query expression
     ├── Regular term ──────────────────────┐
     │   language.NormalizeInPlace()         │
     │   language.IsStopWord() → drop        │
-    │   Stemmer.GetStemRoot()               │→ TermPredicate
+    │   if VERBATIM or all queried fields   │
+    │     are NOSTEM → skip stemming        │→ TermPredicate(exact=true)
+    │   else → Stemmer.GetStemRoot()        │→ TermPredicate(exact=false)
     │                                       │
     ├── Wildcard / Fuzzy ───────────────────┤
     │   language.NormalizeInPlace() only     │→ Prefix/Suffix/FuzzyPredicate
