@@ -84,9 +84,20 @@ using that language.
   `TokenizeWithStemMap`. Concrete subclasses only supply data (punctuation
   string, stop-word list, normalization form, locale, stemmer algorithm
   name). At construction it normalizes each stop word through the *same*
-  `NormalizeCaseFoldFilter` used for tokens (NFC/NFKC + locale-aware
-  casefold), so stop-word matching is Unicode-consistent with the tokens
-  it filters.
+  `NormalizeCaseFoldFilter` used for tokens, so stop-word matching is
+  Unicode-consistent with the tokens it filters.
+  **Normalization is per-language.** Each `SnowballLanguage` subclass
+  declares its own `NormalizationForm` and casefold locale.
+  `NormalizeCaseFoldFilter` applies these in a fixed order — Unicode
+  normalization first, then case folding — to every token and stop word.
+  Arabic uses **NFKC** (compatibility decomposition) so that Arabic
+  Presentation Forms-B codepoints normalize to their basic-letter
+  equivalents. All other Snowball languages use **NFC** (canonical
+  composition), which is sufficient for diacritics and combining sequences
+  but does not apply compatibility mappings. Turkish uses locale-aware case
+  folding via `CaseMap::utf8ToLower("tr")` to handle the dotted/dotless I
+  distinction; all other languages use locale-independent
+  `CaseMap::utf8Fold`.
 - **`LanguageRegistry`** is a process-wide singleton holding one shared,
   immutable `Language` instance per enum value; callers never construct
   concrete languages directly. `LANGUAGE_UNSPECIFIED` maps to English.
@@ -135,10 +146,13 @@ Input text
 ┌────────────────────────────┐
 │ SnowballLanguage::Tokenize │  UTF-8 validation, then:
 │  (SegmentInternal loop)    │   • NormalizeInPlace on the full input text
-│                            │     (NFC/NFKC + casefold) — ensures that
-│                            │     compatibility mappings (e.g. NFKC:
-│                            │     U+FF0C fullwidth comma → U+002C) are
-│                            │     visible to the delimiter scanner
+│                            │     (per-language normalization form + casefold:
+│                            │     NFC for most languages, NFKC for Arabic;
+│                            │     locale-aware casefold for Turkish) —
+│                            │     ensures that compatibility mappings
+│                            │     (e.g. NFKC: U+FF0C fullwidth comma →
+│                            │     U+002C) are visible to the delimiter
+│                            │     scanner
 │                            │   • codepoint-aware segmentation loop:
 │                            │     - ASCII fast path (lead < 0x80): byte-level
 │                            │       bitset punctuation check, no UTF-8 decode
@@ -218,8 +232,9 @@ independently modifiable, which is also what future non-Snowball languages
 
 Stop-word sets are not built by a shared helper: `SnowballLanguage`
 normalizes each stop word through its own `NormalizeCaseFoldFilter` at
-construction, so the set matches the language's normalization form and
-casefold locale.
+construction (applying the language's normalization form and casefold
+locale in that order), so the set matches the exact normalization applied
+to tokens.
 
 ### Version gating and cluster safety
 
