@@ -223,6 +223,17 @@ Query expression
         language.NormalizeInPlace() only     → TermPredicate(exact=true)
 ```
 
+**Stop words in exact phrases (pre-existing).** The exact-phrase path
+applies only normalization — stop words are **not** filtered from phrase
+terms. This is pre-existing behavior from the original English-only FTS
+implementation, not a change introduced by multi-language support. Because
+the ingestion pipeline *does* remove stop words, a phrase containing a
+stop word (e.g. `"the quick brown"`) will not match any documents.
+RediSearch behaves the same way — empirically, exact phrases containing
+stop words return 0 results on RediSearch as well. Users who need stop
+words to be searchable in phrases can supply `NOSTOPWORDS` at index
+creation time.
+
 `Fuzzy` DP is codepoint-aware so `MINSTEMSIZE` and edit distance work
 correctly for multi-byte scripts (Arabic, Russian, Turkish). This includes
 buffering across `Rax` edge boundaries so a codepoint split by radix-tree
