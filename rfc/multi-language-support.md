@@ -652,10 +652,11 @@ FT.SEARCH tr_custom "için" DIALECT 2
 
 ### 6. `NOSTEM` for exact-form indexes
 
-Without `NOSTEM`, Snowball stems both indexed content and the query, so
-a search for one Italian conjugation matches documents containing any
-other conjugation that stems to the same root. With `NOSTEM`, only the
-exact indexed surface form matches:
+Without `NOSTEM`, the index stores normalized surface tokens and builds a
+separate stem map that enables query expansion — a search for one Italian
+conjugation matches documents containing any other conjugation that stems
+to the same root. With `NOSTEM`, no stem map is built and queries match
+only the exact indexed surface form:
 
 ```
 FT.CREATE it_stem   ON HASH PREFIX 1 doc:it_s: LANGUAGE italian
