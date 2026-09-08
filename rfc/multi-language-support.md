@@ -106,7 +106,15 @@ using that language.
   incorrectly indexing data they cannot tokenize.
 - **`CustomizedLanguage`** decorates a base language with FT.CREATE
   `PUNCTUATION` / `STOPWORDS` overrides, delegating normalization, locale,
-  version gating, and stemming to the base.
+  version gating, and stemming to the base. A user-supplied `PUNCTUATION`
+  string fully replaces the language's default punctuation set (it is
+  not merged). A user-supplied `STOPWORDS` list likewise replaces the
+  default list. Both ingestion (`SegmentInternal`) and query parsing
+  (`FilterParser`) obtain the effective punctuation from the same
+  `language.GetPunctuationSet()` call, so there is no ingestion/query
+  mismatch. English retains its legacy ASCII-only punctuation set for
+  backward compatibility; new languages add CLDR-derived non-ASCII
+  punctuation on top of the ASCII base.
 - **`SnowballStemFilter`** adapts the external `libstemmer` C API to the
   `Stemmer` interface, using a thread-local `sb_stemmer` cache keyed by
   language enum to avoid mutex contention on ingestion threads. Exposes
