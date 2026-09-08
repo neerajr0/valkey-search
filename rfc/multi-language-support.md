@@ -268,6 +268,28 @@ the registry rejects unrecognized language enum values at index creation
 time rather than silently falling back to English, ensuring that older
 module versions cannot incorrectly index data they cannot tokenize.
 
+The version gating plugs into the existing per-index-schema versioning
+machinery (see `version.h` and the RDB format RFC for the full design).
+Each `Language` subclass declares a `MinRequiredVersion()` — English
+returns `0.0.0` (always supported), non-English languages return
+`1.3.0`. `IndexSchema::GetMinVersion()` resolves the language and
+returns `max(kRelease12, language.MinRequiredVersion())` for any schema
+with text indexes. This per-schema version then flows through three
+rejection points:
+
+1. **FT.CREATE**: The `ParseLanguage()` path checks
+   `language->IsSupported()` (i.e., `kModuleVersion >=
+   MinRequiredVersion()`) before accepting the command. A node running
+   < 1.3 rejects creation of a non-English index outright.
+2. **Cluster metadata broadcast**: Each metadata message carries a
+   `top_level_min_version` computed as the max across all index schemas.
+   A receiving node whose `kModuleVersion < top_level_min_version` drops
+   the entire message (logged + counted, not silent).
+3. **RDB save/load**: The RDB header embeds a `min_version` computed the
+   same way. A loading node whose `kModuleVersion < rdb_version` fails
+   the RDB load with an explicit error message directing the operator to
+   check feature compatibility before downgrading.
+
 ## Compatibility divergences
 
 We intentionally diverge from RediSearch with the behaviors below.
