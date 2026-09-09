@@ -147,7 +147,7 @@ and allocates only for unique stems rather than every token.
 
 ### Ingestion pipeline
 
-```
+```text
 Input text
     │
     ▼
@@ -198,7 +198,7 @@ upstream `main` as possible. The only language-aware hooks are:
 - normalization via `language.NormalizeInPlace()`;
 - stop-word checks via `language.IsStopWord()`.
 
-```
+```text
 Query expression
     │
     ▼
@@ -325,7 +325,7 @@ prefixes; Snowball 2.1.0's Dutch Porter stemmer does not. The result is
 that Valkey Search reduces some Dutch words to the same stem where
 RediSearch reduces them to different stems.
 
-```
+```text
 FT.CREATE idx ON HASH PREFIX 1 doc: LANGUAGE dutch
     SCHEMA content TEXT
 HSET doc:1 content "geschilderd"
@@ -346,7 +346,7 @@ ligatures like `ﬁ` to `fi` so searches match across these equivalent
 forms. RediSearch uses simple Unicode lowercasing, which preserves the
 original characters.
 
-```
+```text
 FT.CREATE idx ON HASH PREFIX 1 doc: LANGUAGE german
     SCHEMA content TEXT NOSTEM
 HSET doc:1 content "Straße"
@@ -378,7 +378,7 @@ are applied automatically at both ingestion and query time when the
 Consequence: queries containing language-specific stop words behave
 differently.
 
-```
+```text
 FT.CREATE idx ON HASH PREFIX 1 doc: LANGUAGE turkish
     SCHEMA body TEXT
 HSET doc:1 body "alışveriş"
@@ -405,7 +405,7 @@ default punctuation is applied.
 For Spanish, for example, Valkey Search uses the inverted punctuation
 characters `¡` (U+00A1) and `¿` (U+00BF) as default token separators:
 
-```
+```text
 FT.CREATE idx ON HASH PREFIX 1 doc: LANGUAGE spanish
     SCHEMA body TEXT
 HSET doc:1 body "vienes mañana"
@@ -437,7 +437,7 @@ but when querying, only if a field is specified — non-field queries
 bypass `NOSTEM` and querying stemmed forms on `NOSTEM` indexes returns
 results.
 
-```
+```text
 FT.CREATE idx ON HASH PREFIX 1 doc: LANGUAGE indonesian
     SCHEMA body TEXT WITHSUFFIXTRIE NOSTEM
 HSET doc:1 body "burung lambat kuat lumba kebenaran elang jendela"
@@ -466,7 +466,7 @@ For fuzzy search, RediSearch returns documents whose stems are within
 one edit distance of the query term. Valkey Search fuzzy-matches against
 the indexed (unstemmed) form only. Illustrated in Arabic:
 
-```
+```text
 FT.CREATE idx ON HASH PREFIX 1 doc: LANGUAGE arabic
     SCHEMA body TEXT WITHSUFFIXTRIE
 HSET doc:1 body "حرية"    (freedom, 4 code points: ح-ر-ي-ة)
@@ -496,7 +496,7 @@ This matters most for French typography (NBSP before `:` `;` `!` `?` and
 inside `« »`), Arabic text with non-breaking spaces, and CJK text with
 ideographic spaces.
 
-```
+```text
 FT.CREATE idx ON HASH PREFIX 1 doc: SCHEMA body TEXT NOSTEM
 HSET doc:space body "hello world"              # ASCII space (U+0020)
 HSET doc:nbsp body "hello\xc2\xa0world"        # NO-BREAK SPACE (U+00A0)
@@ -545,7 +545,7 @@ and related [comments](https://github.com/valkey-io/valkey-rfc/pull/24/changes#r
 
 ### 1. Create a French index and search across morphological variants
 
-```
+```text
 FT.CREATE fr_idx ON HASH PREFIX 1 doc:fr: LANGUAGE french
     SCHEMA title TEXT content TEXT
 HSET doc:fr:1 title "chaussures d'été"  content "Les chaussures rouges."
@@ -564,7 +564,7 @@ FT.SEARCH fr_idx "été" DIALECT 2
 
 ### 2. German with `ß`↔`ss` case folding and compound words
 
-```
+```text
 FT.CREATE de_idx ON HASH PREFIX 1 doc:de: LANGUAGE german
     SCHEMA body TEXT
 HSET doc:de:1 body "Die Straße ist lang."
@@ -581,7 +581,7 @@ FT.SEARCH de_idx "Geschwindigkeits*" DIALECT 2
 
 ### 3. Turkish locale-aware case folding (dotted/dotless I)
 
-```
+```text
 FT.CREATE tr_idx ON HASH PREFIX 1 doc:tr: LANGUAGE turkish
     SCHEMA body TEXT
 HSET doc:tr:1 body "İstanbul çok güzel."
@@ -603,7 +603,7 @@ match — the codepoints differ even though the glyphs are visually
 identical on modern fonts. Presentation-form data commonly appears in
 text from legacy systems, PDFs, and OCR output.
 
-```
+```text
 FT.CREATE ar_idx ON HASH PREFIX 1 doc:ar: LANGUAGE arabic
     SCHEMA body TEXT
 
@@ -628,7 +628,7 @@ list. Use `NOSTOPWORDS` to disable it, or `STOPWORDS` to provide a
 custom set. The following contrasts the default and overridden behavior
 for Turkish, where `için` ("for") is in the default list:
 
-```
+```text
 # Default: Turkish index uses the Lucene default stop-word list
 FT.CREATE tr_default ON HASH PREFIX 1 doc:tr_d: LANGUAGE turkish
     SCHEMA body TEXT
@@ -658,7 +658,7 @@ conjugation matches documents containing any other conjugation that stems
 to the same root. With `NOSTEM`, no stem map is built and queries match
 only the exact indexed surface form:
 
-```
+```text
 FT.CREATE it_stem   ON HASH PREFIX 1 doc:it_s: LANGUAGE italian
     SCHEMA body TEXT
 FT.CREATE it_nostem ON HASH PREFIX 1 doc:it_n: LANGUAGE italian
@@ -683,7 +683,7 @@ Since an index holds a single language, deployments with mixed-language
 corpora create one index per language and route documents by key prefix
 (or, in a future release, by `FILTER` on a language field):
 
-```
+```text
 FT.CREATE en_idx ON HASH PREFIX 1 doc:en: LANGUAGE english SCHEMA body TEXT
 FT.CREATE ru_idx ON HASH PREFIX 1 doc:ru: LANGUAGE russian SCHEMA body TEXT
 
