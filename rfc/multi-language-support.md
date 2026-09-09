@@ -130,11 +130,20 @@ using that language.
   punctuation lookup for the common (English/ASCII) case; codepoint
   decoding is triggered only by a non-ASCII lead byte.
 
-Language instances are immutable, stateless, and shared — heavyweight
-members (`PunctuationSet`, stop-word hash set, normalizer) exist once per
-language, not once per index. Two indexes using the same language share
-the same `Language*`; there is no per-index mutable language state, so
-cross-contamination is impossible by construction.
+The `LanguageRegistry` singleton holds one shared, immutable `Language`
+instance per enum value — these provide the per-language defaults
+(punctuation string, stop-word list, normalization form, locale, stemmer
+algorithm). At index creation time, `CreateLanguage()` wraps the registry
+singleton in a `CustomizedLanguage` that carries the effective punctuation
+and stop words (either user-supplied overrides from FT.CREATE or the
+language's defaults). Each index therefore owns its own immutable
+`CustomizedLanguage` instance — heavyweight members (`PunctuationSet`,
+stop-word hash set, normalizer, `SnowballStemFilter`) are built once at
+construction and never modified. The per-instance overhead is small (~1-2 KB
+depending on the language's stop-word list size); the actual `sb_stemmer*`
+used by `SnowballStemFilter` is thread-local and shared across all instances
+of the same language. There is no mutable language state, so
+cross-contamination between indexes is impossible by construction.
 
 Stemming is deliberately **not** part of the ingestion segmentation pass —
 tokens are indexed in their normalized-but-unstemmed form; the stemmer is
