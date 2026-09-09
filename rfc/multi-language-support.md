@@ -123,8 +123,8 @@ using that language.
 - **`PunctuationSet`** (ASCII `std::bitset<128>` + non-ASCII
   `flat_hash_set<uint32_t>`) is built by `BuildPunctuationSet()` in
   `language.h`. It seeds from the per-language punctuation string and also
-  adds Unicode whitespace codepoints (U+00A0, U+2000–200A, U+202F,
-  U+3000, etc.) as word boundaries, ensuring that non-breaking spaces and
+  adds all Unicode whitespace codepoints via ICU's `\p{White_Space}`
+  property as word boundaries, ensuring that non-breaking spaces and
   typographic whitespace in French, Arabic, and other scripts are correctly
   treated as delimiters. The ASCII bitset preserves the `main`-branch O(1)
   punctuation lookup for the common (English/ASCII) case; codepoint
