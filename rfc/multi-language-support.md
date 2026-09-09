@@ -586,11 +586,14 @@ the original [FTS RFC](https://github.com/valkey-io/valkey-rfc/pull/24/changes#d
 and related [comments](https://github.com/valkey-io/valkey-rfc/pull/24/changes#r2210835085):
 
 1. **`LANGUAGE_FIELD` in `FT.CREATE`.** A future release can add a
-   `LANGUAGE_FIELD` clause to `FT.CREATE` naming a document field whose
-   value marks each document's language. Ingestion would then route each
-   document through the corresponding `Language` implementation. Queries
-   would need a `LANGUAGE` argument on `FT.SEARCH` to select the
-   language used at query time.
+   `LANGUAGE_FIELD` clause to `FT.CREATE` naming a document field (e.g.
+   a HASH field called `lang`) whose value specifies the language for
+   that document. This would be a per-document setting: all text fields within
+   a single document share the same language. Ingestion would then route
+   each document through the corresponding `Language` implementation
+   based on the value of its `LANGUAGE_FIELD`. Queries would need a
+   `LANGUAGE` argument on `FT.SEARCH` to select the language used at
+   query time.
 2. **`FILTER` in `FT.CREATE`.** Rather than allowing multiple languages
    into one index, a `FILTER` clause on `FT.CREATE` (an arbitrary
    expression evaluated against each document's fields) can restrict
