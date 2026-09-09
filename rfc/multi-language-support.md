@@ -621,6 +621,19 @@ FT.SEARCH ar_idx "المكتبة" DIALECT 2
   → 2 results: doc:ar:1, doc:ar:2
 ```
 
+**Scope of Arabic normalization.** NFKC unifies Arabic Presentation
+Forms with their basic-letter equivalents, which is the primary encoding
+inconsistency in legacy data. It does **not** strip harakat (short-vowel
+diacritics such as fathah, dammah, kasrah) or unify alef/hamza variants
+(أ/إ/آ→ا) and teh marbuta (ة→ه). These are distinct Unicode codepoints,
+not compatibility mappings, so no standard Unicode normalization form
+merges them. Full Arabic text normalization (diacritic removal, letter
+folding) would require custom normalization logic outside of ICU's
+standard normalizers — similar to Apache Lucene's hand-coded
+`ArabicNormalizer`. This is intentionally left as a future enhancement;
+the Snowball Arabic stemmer provides partial compensation by reducing
+diacritized variants to a common stem during query expansion.
+
 ### 5. Override default stop words
 
 Every non-English language ships with a default Apache Lucene stop-word
