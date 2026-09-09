@@ -277,8 +277,8 @@ stop words return 0 results on RediSearch as well. Users who need stop
 words to be searchable in phrases can supply `NOSTOPWORDS` at index
 creation time.
 
-`Fuzzy` DP is codepoint-aware so `MINSTEMSIZE` and edit distance work
-correctly for multi-byte scripts (Arabic, Russian, Turkish). This includes
+`Fuzzy` DP is codepoint-aware so edit distance is computed correctly
+for multi-byte scripts (Arabic, Russian, Turkish). This includes
 buffering across `Rax` edge boundaries so a codepoint split by radix-tree
 edge compression decodes correctly. `Proximity` and `OrProximity` operate
 on word-level positions in an already-tokenized stream and are unaffected
