@@ -360,13 +360,17 @@ The [Future extension for multi-language indexes](#future-extension-for-multi-la
 section below describes how this restriction can be relaxed in a future
 release.
 
-### 1. Snowball 3.0.1 vs Snowball 2.1.0 (Dutch)
+### 1. Snowball 3.0.1 vs Snowball 2.1.0
 
-Valkey Search uses Snowball 3.0.1, whereas RediSearch uses Snowball [2.1.0](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.0-release-notes/). Snowball 3.0.1 uses the
-Kraaij-Pohlmann algorithm for Dutch stemming, which strips grammatical
-prefixes; Snowball 2.1.0's Dutch Porter stemmer does not. The result is
-that Valkey Search reduces some Dutch words to the same stem where
-RediSearch reduces them to different stems.
+Valkey Search uses Snowball 3.0.1, whereas RediSearch uses Snowball [2.1.0](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.0-release-notes/).
+Between these two versions the Snowball project made behavioral changes
+to several stemming algorithms.
+
+**Dutch.** Snowball 3.0.0 switched the default Dutch algorithm
+from Martin Porter's Dutch Porter stemmer to the Kraaij-Pohlmann
+algorithm. Kraaij-Pohlmann strips grammatical prefixes; the Porter
+variant does not. The result is that Valkey Search reduces some Dutch
+words to the same stem where RediSearch reduces them to different stems.
 
 ```text
 FT.CREATE idx ON HASH PREFIX 1 doc: LANGUAGE dutch
@@ -380,6 +384,19 @@ FT.SEARCH idx "schilder" DIALECT 2
 
 Apache Lucene's Dutch analyzer uses Kraaij-Pohlmann-style prefix
 stripping, matching Valkey Search's behavior.
+
+**Additional stemmer changes.** Snowball 3.0.0 also introduced
+targeted improvements to other languages' stemming algorithms:
+
+| Language   | Change summary |
+| ---------- | -------------- |
+| English    | Extra condition on consonant undoubling (avoids conflating `add`/`ad`, `egg`/`eg`, `off`/`of`); exception handling to prevent conflation of word pairs such as `emerge`/`emergency`, `evening`/`even`, `lateral`/`later`, `universe`/`universal`/`university`, `past`/`paste`, `organ`/`organic`/`organize`; `-ogist` → `-og` (conflates `geologist` with `geology`); `-eed`/`-ing` exception handling restructured. |
+| French     | Elisions (`l'`, `d'`, etc.) removed as a first step; `-aise`/`-aises` suffix removal added; conflation fixes (`mauvais`/`mauve`, `ni`/`niais`); `-oux` → `-ou`. |
+| German     | Replaced with the "german2" variant (normalises umlauts: `ä`→`ae`, `ö`→`oe`, `ü`→`ue`); new suffix rules for `-erin`/`-erinnen`, `-ln`/`-lns`, `-et`; avoids overstemming `-system` words. |
+| Spanish    | `-acion` handled like `-ación`, `-ucion` like `-ución` (accent-less forms now stemmed equivalently). |
+| Italian    | Elision handling added; overstemming of "divano" (sofa) fixed (no longer conflated with "diva"). |
+| Swedish    | `-öst`→`-ös` rule broadened to more preceding consonants; `-et`/`-ets` suffix removal added. |
+| Turkish    | Proper-noun suffixes now removed (e.g. `Türkiye'dir` → `Türkiye`). |
 
 ### 2. ICU `utf8Fold` vs simple Unicode lowercasing
 
