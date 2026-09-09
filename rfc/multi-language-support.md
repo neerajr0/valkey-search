@@ -160,7 +160,10 @@ Input text
 │                            │     ensures that compatibility mappings
 │                            │     (e.g. NFKC: U+FF0C fullwidth comma →
 │                            │     U+002C) are visible to the delimiter
-│                            │     scanner
+│                            │     scanner. Normalization and tokenization
+│                            │     are not commutative for NFKC: tokenizing
+│                            │     first would treat compatibility characters
+│                            │     as word content instead of delimiters.
 │                            │   • codepoint-aware segmentation loop:
 │                            │     - ASCII fast path (lead < 0x80): byte-level
 │                            │       bitset punctuation check, no UTF-8 decode
