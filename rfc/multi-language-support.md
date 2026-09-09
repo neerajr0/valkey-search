@@ -211,28 +211,59 @@ upstream `main` as possible. The only language-aware hooks are:
 - stop-word checks via `language.IsStopWord()`.
 
 ```text
-Query expression
-    │
-    ▼
-┌────────────────────────────────────────────────────────┐
-│ FilterParser walks query syntax chars (byte-level)      │
-│   ASCII punctuation → cached PunctuationSet.Contains    │
-│   non-ASCII lead    → IsNonAsciiDelimiter(PunctuationSet)│
-│   escape handling   → \<char>                            │
-└────────────────────────────────────────────────────────┘
-    │
-    ├── Regular term ──────────────────────┐
-    │   language.NormalizeInPlace()         │
-    │   language.IsStopWord() → drop        │
-    │   if VERBATIM or all queried fields   │
-    │     are NOSTEM → skip stemming        │→ TermPredicate(exact=true)
-    │   else → Stemmer.GetStemRoot()        │→ TermPredicate(exact=false)
-    │                                       │
-    ├── Wildcard / Fuzzy ───────────────────┤
-    │   language.NormalizeInPlace() only     │→ Prefix/Suffix/FuzzyPredicate
-    │                                       │
-    └── Exact phrase (quoted) ──────────────┘
-        language.NormalizeInPlace() only     → TermPredicate(exact=true)
+                                Query string
+                                     │
+                                     ▼
+          ┌──────────────────────────────────────────────────┐
+          │ FilterParser::ParseTextTokens                    │
+          │   byte-level scan → tokens                       │
+          │   PunctuationSet bitset · IsNonAsciiDelimiter    │
+          │   escape handling → \<char>                      │
+          └───────────────────────┬──────────────────────────┘
+                                  │  per token
+                                  ▼
+                      ┌────────────────────────┐
+                      │  NormalizeInPlace()     │  ◄── every token
+                      └───────────┬────────────┘
+                                  ▼
+                          ◇ token shape? ◇
+                                  │
+          ┌───────────────┬───────┴────────┬─────────────────────┐
+          │ word          │ word*  *word   │ %word%              │ "w1 w2 …"
+          │ (regular)     │ *word* (wild)  │ (fuzzy)             │ (phrase)
+          ▼               ▼                ▼                     ▼
+    ┌───────────┐   (normalize only) (normalize only)  normalize each word
+    │IsStopWord?│───drop→✗                             (no stop-word filter)
+    └─────┬─────┘         │                │                     │
+       keep▼              │                │             TermPredicate per word
+          │               │                │                (exact=true)
+    ┌────────────────┐    │                │                     │
+    │ VERBATIM?      │    │                │        ┌────────────┴──────────────┐
+    │  yes → exact   │    │                │        │ ComposedPredicate         │
+    │  no  → stem    │    │                │        │  (AND, slop=0, inorder)   │
+    │  (NOSTEM gates │    │                │        └────────────┬─────────────┘
+    │   at iterator) │    │                │                     │
+    └──┬─────────┬───┘    │                │                     │
+       │         │        │                │                     │
+       ▼         ▼        ▼                ▼                     │
+ TermPredicate  TermPredicate  Prefix/Suffix/  FuzzyPredicate    │
+ (exact=true)  (exact=false)  InfixPredicate   (distance)        │
+       │         │             │                │                │
+       └─────────┴─────────────┴────────────────┴────────────────┘
+                                  │   all are TextPredicate
+                                  ▼
+          ┌──────────────────────────────────────────────────┐
+          │ TextPredicate::BuildTextIterator() → walk Rax    │
+          │   • Term (exact=false) Stemmer.GetStemRoot() +   │
+          │     stem-variant expansion via stem tree          │
+          │   • Term (exact=true)  single-term lookup         │
+          │   • Prefix/Suffix/     expand terms, union        │
+          │     Infix/Fuzzy                                   │
+          │   • ComposedAND        per-term iters + slop      │
+          │     (phrase)                                       │
+          └───────────────────────┬──────────────────────────┘
+                                  ▼
+                             TextIterator
 ```
 
 **Stop words in exact phrases (pre-existing).** The exact-phrase path
